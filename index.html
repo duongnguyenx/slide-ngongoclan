@@ -173,6 +173,60 @@
           filter: drop-shadow(0 0 35px rgba(250, 204, 21, 0.8));
         }
       }
+      /* FIX: idle-pulse was used but never defined */
+      @keyframes idlePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.06); }
+      }
+      /* Soft shimmer effect for badges & labels */
+      @keyframes shimmer {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+      /* Gentle breathing for cards */
+      @keyframes breathe {
+        0%, 100% { transform: scale(1); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        50% { transform: scale(1.015); box-shadow: 0 25px 35px -5px rgba(0,0,0,0.15); }
+      }
+      /* Horizontal drift for background decorations */
+      @keyframes driftX {
+        0%, 100% { transform: translateX(0) rotate(0deg); }
+        50% { transform: translateX(15px) rotate(3deg); }
+      }
+      /* Wiggle for icons */
+      @keyframes wiggle {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(5deg); }
+        75% { transform: rotate(-5deg); }
+      }
+      /* Orbit for decorative dots */
+      @keyframes orbit {
+        0% { transform: rotate(0deg) translateX(12px) rotate(0deg); }
+        100% { transform: rotate(360deg) translateX(12px) rotate(-360deg); }
+      }
+      /* Gradient shift for accent bars */
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      /* Counter / progress bar grow */
+      @keyframes growWidth {
+        from { width: 0%; }
+        to { width: 100%; }
+      }
+      /* Soft bounce for list items */
+      @keyframes softBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+      }
+      /* Particle float for decorative elements */
+      @keyframes particleFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+        25% { transform: translate(10px, -15px) scale(1.1); opacity: 0.6; }
+        50% { transform: translate(-5px, -25px) scale(0.95); opacity: 0.4; }
+        75% { transform: translate(8px, -10px) scale(1.05); opacity: 0.5; }
+      }
 
       .idle-float {
         animation: floatIdle 6s ease-in-out infinite;
@@ -185,6 +239,76 @@
       }
       .idle-glow {
         animation: pulseGlow 3s ease-in-out infinite;
+      }
+      .idle-pulse {
+        animation: idlePulse 4s ease-in-out infinite;
+      }
+      .idle-shimmer {
+        animation: shimmer 3s ease-in-out infinite;
+      }
+      .idle-breathe {
+        animation: breathe 5s ease-in-out infinite;
+      }
+      .idle-drift {
+        animation: driftX 8s ease-in-out infinite;
+      }
+      .idle-wiggle {
+        animation: wiggle 4s ease-in-out infinite;
+      }
+      .idle-orbit {
+        animation: orbit 20s linear infinite;
+      }
+      .idle-soft-bounce {
+        animation: softBounce 3s ease-in-out infinite;
+      }
+      .idle-particle {
+        animation: particleFloat 8s ease-in-out infinite;
+        pointer-events: none;
+      }
+      .idle-gradient-bar {
+        background: linear-gradient(90deg, var(--red), var(--yellow), var(--teal), var(--blue));
+        background-size: 300% 100%;
+        animation: gradientShift 6s ease infinite;
+      }
+      /* CADI animated bar */
+      .slide.active .cadi-bar-animated {
+        animation: growWidth 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
+      }
+
+      /* Timeline number circle ripple */
+      @keyframes rippleRing {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+        100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+      }
+      .timeline-circle {
+        position: absolute;
+        left: -58px;
+        top: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 1.25rem;
+        z-index: 10;
+      }
+      .timeline-circle::before,
+      .timeline-circle::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 3px solid currentColor;
+        opacity: 0;
+        animation: rippleRing 3s ease-out infinite;
+      }
+      .timeline-circle::after {
+        animation-delay: 1.5s;
       }
       /* ================= ANIMATIONS ================= */
       @keyframes fadeInUp {
@@ -325,55 +449,82 @@
     <div id="presentation">
       <!-- Slide 1: Bìa -->
       <div class="slide active bg-teal-slide justify-between">
-        <div class="w-1/2">
-          <p
-            class="text-xl font-bold uppercase tracking-widest mb-6 text-yellow-400"
+        <div class="w-1/2 flex flex-col justify-center">
+          <!-- Badge -->
+          <div
+            class="inline-block bg-yellow-400/20 backdrop-blur-sm border border-yellow-400/40 text-yellow-300 font-medium px-4 py-1.5 rounded-full text-xs tracking-widest mb-8 w-max idle-shimmer"
           >
-            ĐỒ ÁN TỐT NGHIỆP 2026
-          </p>
-          <h1
-            style="font-size: 3rem"
-            class="title-font drop-shadow-md text-white mb-6"
-          >
-            PHƯƠNG PHÁP TÁI TẠO <br />
-            VÀ LÀM SẠCH <br />
+            Đồ án tốt nghiệp 2026
+          </div>
+
+          <!-- Title — one complete phrase -->
+          <h1 class="title-font drop-shadow-md text-white mb-0 leading-[1.35]">
+            <span style="font-size: 2.6rem; display: block; opacity: 0.95"
+              >PHƯƠNG PHÁP TÁI TẠO</span
+            >
+            <span style="font-size: 2.6rem; display: block; opacity: 0.95"
+              >VÀ LÀM SẠCH</span
+            >
             <span
-              class="text-yellow-400 drop-shadow-xl"
+              class="text-yellow-400 drop-shadow-xl idle-glow"
               style="
                 font-size: 7.5rem;
-                line-height: 1.2;
+                line-height: 1.1;
                 display: inline-block;
-                margin-top: 1rem;
+                margin-top: 0.5rem;
               "
               >MỤN ẨN</span
             >
           </h1>
-          <p
-            class="text-2xl font-medium mb-8 opacity-90 max-w-lg leading-relaxed"
-          >
-            (Closed Comedones) - Ứng dụng bạt sừng hóa học và phục hồi hàng rào
-            bảo vệ da
-          </p>
+
+          <!-- Decorative bar + subtitle tag -->
+          <div class="flex items-center gap-4 mt-4 mb-8">
+            <div
+              class="w-20 h-1.5 bg-yellow-400 rounded-full idle-gradient-bar"
+            ></div>
+            <span
+              class="text-sm font-bold tracking-widest uppercase text-white/70 bg-white/10 px-3 py-1 rounded-full border border-white/20"
+              >Closed Comedones</span
+            >
+          </div>
+
+          <!-- KTV Info — compact -->
           <div
-            class="bg-white/20 p-5 rounded-xl inline-block backdrop-blur-sm border border-white/30"
+            class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 w-max"
           >
-            <p class="text-xl font-bold">KTV: NGÔ NGỌC LAN</p>
-            <p class="text-md opacity-90">CSSD 23-02 | CĐ Việt Mỹ Hà Nội</p>
+            <div
+              class="w-11 h-11 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 idle-pulse"
+              style="animation-duration: 5s"
+            >
+              <i data-lucide="user" class="w-5 h-5 text-teal-900"></i>
+            </div>
+            <div>
+              <p class="text-lg font-bold leading-tight">NGÔ NGỌC LAN</p>
+              <p class="text-sm opacity-70 tracking-wide">
+                CSSD 23-02 · CĐ Việt Mỹ Hà Nội
+              </p>
+            </div>
           </div>
         </div>
         <div class="w-1/2 flex justify-center items-center relative pl-4">
           <div class="circle-shape w-96 h-96 idle-pulse">
-            <i data-lucide="sparkles" class="text-teal-600 w-48 h-48"></i>
+            <i data-lucide="sparkles" class="text-teal-600 w-48 h-48 idle-spin" style="animation-duration:40s"></i>
+            <!-- Floating particles around circle -->
+            <div class="absolute w-3 h-3 bg-yellow-300 rounded-full idle-particle" style="top:10%;left:15%;animation-delay:0s"></div>
+            <div class="absolute w-2 h-2 bg-white rounded-full idle-particle" style="top:70%;right:10%;animation-delay:2s"></div>
+            <div class="absolute w-2.5 h-2.5 bg-teal-200 rounded-full idle-particle" style="bottom:20%;left:5%;animation-delay:4s"></div>
             <div
-              class="absolute -right-10 top-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform rotate-6"
+              class="absolute -right-10 top-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform rotate-6 idle-float"
+              style="animation-delay: 0.5s"
             >
-              <i data-lucide="microscope" class="w-6 h-6 text-red-500"></i> Bạt
+              <i data-lucide="microscope" class="w-6 h-6 text-red-500 idle-wiggle"></i> Bạt
               sừng Y Khoa
             </div>
             <div
-              class="absolute -left-10 bottom-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform -rotate-6"
+              class="absolute -left-10 bottom-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform -rotate-6 idle-float-reverse"
+              style="animation-delay: 1s"
             >
-              <i data-lucide="crosshair" class="w-6 h-6 text-blue-500"></i> Phục
+              <i data-lucide="crosshair" class="w-6 h-6 text-blue-500 idle-wiggle" style="animation-delay:2s"></i> Phục
               hồi 8 Tuần
             </div>
           </div>
@@ -385,13 +536,15 @@
         <div class="w-5/12 flex justify-center items-center">
           <div class="relative w-full aspect-square max-w-md">
             <div
-              class="absolute inset-0 bg-yellow-400 rounded-[3rem] transform rotate-3"
+              class="absolute inset-0 bg-yellow-400 rounded-[3rem] transform rotate-3 idle-breathe"
+              style="animation-delay: 1s"
             ></div>
             <div
               class="absolute inset-0 card-shape bg-teal-50 transform -rotate-3 p-8 flex flex-col items-center justify-center text-blue-900 border-4 border-white"
             >
               <div
-                class="w-48 h-48 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-blue-200 overflow-hidden"
+                class="w-48 h-48 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-blue-200 overflow-hidden idle-pulse"
+                style="animation-duration: 5s"
               >
                 <img
                   src="./media/ngoclan.jpg"
@@ -400,10 +553,13 @@
                 />
               </div>
               <h3 class="text-3xl font-black mb-2">NGÔ NGỌC LAN</h3>
-              <p class="font-bold text-gray-500 tracking-widest uppercase">
+              <p class="font-bold text-gray-500 tracking-widest uppercase idle-shimmer">
                 Kỹ thuật viên Spa
               </p>
             </div>
+            <!-- Floating decorative particles -->
+            <div class="absolute w-2 h-2 bg-yellow-400 rounded-full idle-particle" style="top:-5%;right:20%;animation-delay:1s"></div>
+            <div class="absolute w-3 h-3 bg-blue-300 rounded-full idle-particle" style="bottom:10%;left:-5%;animation-delay:3s"></div>
           </div>
         </div>
         <div class="w-7/12 pl-16">
@@ -411,8 +567,8 @@
             KINH NGHIỆM <span class="text-yellow-400">THỰC TIỄN</span>
           </h2>
           <div class="space-y-6">
-            <div class="card-shape p-6 text-blue-900 flex items-start gap-4">
-              <div class="bg-blue-100 p-3 rounded-lg">
+            <div class="card-shape p-6 text-blue-900 flex items-start gap-4 idle-breathe" style="animation-delay:0.5s">
+              <div class="bg-blue-100 p-3 rounded-lg idle-soft-bounce" style="animation-delay:1s">
                 <i data-lucide="building-2" class="w-8 h-8 text-blue-600"></i>
               </div>
               <div>
@@ -424,9 +580,10 @@
               </div>
             </div>
             <div
-              class="card-shape bg-yellow-400 p-6 text-blue-900 flex items-start gap-4 transform translate-x-4"
+              class="card-shape bg-yellow-400 p-6 text-blue-900 flex items-start gap-4 transform translate-x-4 idle-breathe"
+              style="animation-delay:1.5s"
             >
-              <div class="bg-yellow-100 p-3 rounded-lg">
+              <div class="bg-yellow-100 p-3 rounded-lg idle-soft-bounce" style="animation-delay:2s">
                 <i data-lucide="target" class="w-8 h-8 text-yellow-600"></i>
               </div>
               <div>
@@ -452,7 +609,7 @@
             <div
               class="card-shape p-6 w-1/2 text-teal-800 flex flex-col justify-center"
             >
-              <h3 class="text-6xl font-black text-teal-600 mb-2 title-font">
+              <h3 class="text-6xl font-black text-teal-600 mb-2 title-font idle-pulse" style="animation-duration:3s">
                 70%
               </h3>
               <p class="font-bold text-xl leading-tight">
@@ -467,7 +624,7 @@
             >
               <i
                 data-lucide="alert-triangle"
-                class="w-10 h-10 mb-3 opacity-80"
+                class="w-10 h-10 mb-3 opacity-80 idle-wiggle"
               ></i>
               <h3 class="text-4xl font-black mb-1 title-font">RỖ SẸO</h3>
               <p class="font-bold text-lg leading-tight uppercase">
@@ -485,7 +642,7 @@
           >
             <i
               data-lucide="lightbulb"
-              class="w-32 h-32 text-yellow-400 mb-6 relative z-10"
+              class="w-32 h-32 text-yellow-400 mb-6 relative z-10 idle-glow"
             ></i>
             <h3 class="text-3xl font-bold relative z-10 mb-4">GIẢI PHÁP KTV</h3>
             <p
@@ -507,13 +664,14 @@
       <div class="slide bg-blue-slide justify-between">
         <div class="w-1/2 flex justify-center items-center pl-8">
           <div
-            class="w-full h-[80%] bg-blue-800 rounded-3xl p-8 relative flex flex-col min-h-0 border-l-8 border-yellow-400"
+            class="w-full h-[80%] bg-blue-800 rounded-3xl p-8 relative flex flex-col min-h-0 border-l-8 border-yellow-400 idle-breathe"
           >
             <div
               class="flex items-center gap-6 border-b border-blue-700 pb-6 mb-6"
             >
               <div
-                class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-800 font-black text-3xl"
+                class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-800 font-black text-3xl idle-pulse"
+                style="animation-duration: 5s"
               >
                 NTA
               </div>
@@ -528,7 +686,8 @@
               <div class="flex gap-4">
                 <i
                   data-lucide="briefcase"
-                  class="w-8 h-8 text-blue-300 shrink-0"
+                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay:0s"
                 ></i>
                 <div>
                   <p class="font-bold text-lg">Nghề nghiệp</p>
@@ -540,7 +699,8 @@
               <div class="flex gap-4">
                 <i
                   data-lucide="thermometer-snowflake"
-                  class="w-8 h-8 text-blue-300 shrink-0"
+                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay:1s"
                 ></i>
                 <div>
                   <p class="font-bold text-lg">Môi trường</p>
@@ -552,7 +712,8 @@
               <div class="flex gap-4">
                 <i
                   data-lucide="wind"
-                  class="w-8 h-8 text-blue-300 shrink-0"
+                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay:2s"
                 ></i>
                 <div>
                   <p class="font-bold text-lg">Khói bụi</p>
@@ -574,7 +735,7 @@
             HỒ SƠ <span class="text-yellow-400">KHÁCH HÀNG</span>
           </h2>
           <div
-            class="card-shape bg-red-500 p-8 text-white w-max transform rotate-2"
+            class="card-shape bg-red-500 p-8 text-white w-max transform rotate-2 idle-breathe"
           >
             <p
               class="text-xl font-bold uppercase opacity-90 border-b border-red-400 pb-2 mb-4"
@@ -582,7 +743,7 @@
               Tình trạng ghi nhận
             </p>
             <div class="flex items-center gap-6 mt-4">
-              <h3 class="text-7xl font-black title-font">3 NĂM</h3>
+              <h3 class="text-7xl font-black title-font idle-pulse" style="animation-duration:3s">3 NĂM</h3>
               <p class="text-2xl font-bold leading-tight uppercase">
                 Mụn ẩn<br />Dai dẳng
               </p>
@@ -624,7 +785,7 @@
             <div
               class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
             >
-              <div class="p-4 bg-teal-50 rounded-full w-max mb-4">
+              <div class="p-4 bg-teal-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:0s">
                 <i data-lucide="droplet-off" class="w-8 h-8 text-teal-600"></i>
               </div>
               <h4 class="font-black text-xl mb-1 mt-auto">Dầu tẩy trang</h4>
@@ -635,7 +796,7 @@
             <div
               class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
             >
-              <div class="p-4 bg-red-50 rounded-full w-max mb-4">
+              <div class="p-4 bg-red-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:0.5s">
                 <i data-lucide="shield-alert" class="w-8 h-8 text-red-500"></i>
               </div>
               <h4 class="font-black text-xl mb-1 mt-auto">Thiếu Acid</h4>
@@ -646,7 +807,7 @@
             <div
               class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
             >
-              <div class="p-4 bg-yellow-50 rounded-full w-max mb-4">
+              <div class="p-4 bg-yellow-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:1s">
                 <i data-lucide="lock" class="w-8 h-8 text-yellow-600"></i>
               </div>
               <h4 class="font-black text-xl mb-1 mt-auto">Khóa kín da</h4>
@@ -657,7 +818,7 @@
             <div
               class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
             >
-              <div class="p-4 bg-blue-50 rounded-full w-max mb-4">
+              <div class="p-4 bg-blue-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:1.5s">
                 <i data-lucide="hand" class="w-8 h-8 text-blue-600"></i>
               </div>
               <h4 class="font-black text-xl mb-1 mt-auto">Tự nặn tay</h4>
@@ -843,7 +1004,7 @@
           >
             <div class="relative z-10">
               <div
-                class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-white text-teal-800 flex items-center justify-center font-black text-xl border-4 border-teal-500"
+                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500"
               >
                 1
               </div>
@@ -858,9 +1019,10 @@
 
             <div class="relative z-10 mt-4">
               <div
-                class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-yellow-400 text-teal-900 flex items-center justify-center font-black text-xl border-4 border-teal-500"
+                class="timeline-circle bg-yellow-400 text-yellow-400 border-4 border-teal-500"
+                style="animation-delay: 0.5s"
               >
-                2
+                <span class="text-teal-900">2</span>
               </div>
               <h4 class="text-2xl font-bold text-yellow-300 mb-2">
                 Tuần 3 - 6: Trích nhân
@@ -873,9 +1035,10 @@
 
             <div class="relative z-10 mt-4">
               <div
-                class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-white text-teal-800 flex items-center justify-center font-black text-xl border-4 border-teal-500"
+                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500"
+                style="animation-delay: 1s"
               >
-                3
+                <span class="text-teal-800">3</span>
               </div>
               <h4 class="text-2xl font-bold text-yellow-300 mb-2">
                 Tuần 7 - 8: Phục hồi
@@ -894,7 +1057,8 @@
             >
               <i
                 data-lucide="test-tube-2"
-                class="w-16 h-16 text-yellow-400 mb-4"
+                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+                style="animation-delay:0s"
               ></i>
               <p class="font-bold text-xl uppercase">BHA 2%</p>
               <p class="opacity-70 mt-2">Xuyên dầu nhờn</p>
@@ -904,7 +1068,8 @@
             >
               <i
                 data-lucide="scissors"
-                class="w-16 h-16 text-yellow-400 mb-4"
+                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+                style="animation-delay:1s"
               ></i>
               <p class="font-bold text-xl uppercase">KIM 30G</p>
               <p class="opacity-70 mt-2">Trích vi phẫu</p>
@@ -912,7 +1077,7 @@
             <div
               class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform -translate-y-8"
             >
-              <i data-lucide="zap" class="w-16 h-16 text-yellow-400 mb-4"></i>
+              <i data-lucide="zap" class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle" style="animation-delay:2s"></i>
               <p class="font-bold text-xl uppercase">SA Peel 20%</p>
               <p class="opacity-70 mt-2">Sát khuẩn hốc</p>
             </div>
@@ -921,7 +1086,8 @@
             >
               <i
                 data-lucide="shield-check"
-                class="w-16 h-16 text-yellow-400 mb-4"
+                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+                style="animation-delay:3s"
               ></i>
               <p class="font-bold text-xl uppercase">Retinol</p>
               <p class="opacity-70 mt-2">Chống tái phát</p>
@@ -1001,6 +1167,7 @@
         >
           <div
             class="circle-shape w-96 h-96 bg-blue-500 opacity-20 absolute idle-pulse"
+            style="animation-duration:6s"
           ></div>
 
           <!-- Card 1 -->
@@ -1227,7 +1394,7 @@
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6"></i>
+                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0s"></i>
               </div>
               <div class="w-2/5 pl-6">
                 <span class="text-teal-700 font-black">Micellar Water</span>
@@ -1245,7 +1412,7 @@
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6"></i>
+                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.3s"></i>
               </div>
               <div class="w-2/5 pl-6">
                 <span class="text-teal-700 font-black">Gel Amino pH 5.5</span>
@@ -1263,7 +1430,7 @@
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6"></i>
+                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.6s"></i>
               </div>
               <div class="w-2/5 pl-6">
                 <span class="text-teal-700 font-black text-sm"
@@ -1283,7 +1450,7 @@
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6"></i>
+                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.9s"></i>
               </div>
               <div class="w-2/5 pl-6">
                 <span class="text-teal-700 font-black text-sm"
@@ -1303,7 +1470,7 @@
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6"></i>
+                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:1.2s"></i>
               </div>
               <div class="w-2/5 pl-6">
                 <span class="text-teal-700 font-black text-sm"
@@ -1473,7 +1640,7 @@
               </p>
               <p class="font-bold text-lg">Gần như sạch hoàn toàn</p>
             </div>
-            <h3 class="text-6xl font-black text-teal-600 title-font">98%</h3>
+            <h3 class="text-6xl font-black text-teal-600 title-font idle-pulse" style="animation-duration:3s">98%</h3>
           </div>
           <div
             class="card-shape text-blue-900 border-l-8 border-blue-500 p-6 flex items-center justify-between"
@@ -1520,7 +1687,7 @@
                   class="h-2 bg-black/30 rounded-full relative overflow-hidden"
                 >
                   <div
-                    class="absolute inset-y-0 left-0 bg-yellow-400 w-full rounded-full"
+                    class="absolute inset-y-0 left-0 bg-yellow-400 rounded-full cadi-bar-animated"
                   ></div>
                 </div>
               </div>
@@ -1558,7 +1725,8 @@
             VIDEO <span class="text-yellow-400">TRÍCH NHÂN KỸ THUẬT</span>
           </h2>
           <div
-            class="w-full aspect-video bg-black rounded-3xl border-8 border-white shadow-2xl overflow-hidden group flex justify-center items-center cursor-pointer hover:border-yellow-400 transition-colors"
+            class="w-full aspect-video bg-black rounded-3xl border-8 border-white shadow-2xl overflow-hidden group flex justify-center items-center cursor-pointer hover:border-yellow-400 transition-colors idle-breathe"
+            style="animation-duration:6s"
           >
             <video controls class="w-full h-full object-cover">
               <source src="./media/video01.mov" type="video/mp4" />
@@ -1581,7 +1749,7 @@
             <span class="text-2xl mx-4 text-gray-300 opacity-50">&</span>
             <span class="text-yellow-400 drop-shadow-xl">THÀNH QUẢ</span>
             <div
-              class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-red-500 via-yellow-400 to-teal-400 rounded-full"
+              class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-48 h-1 rounded-full idle-gradient-bar"
             ></div>
           </h2>
         </div>
@@ -1715,7 +1883,7 @@
         class="slide bg-teal-slide justify-center items-center flex-col text-center"
       >
         <div
-          class="circle-shape w-32 h-32 bg-yellow-400 mb-8 mx-auto hover:scale-110 transition-transform idle-pulse"
+          class="circle-shape w-32 h-32 bg-yellow-400 mb-8 mx-auto hover:scale-110 transition-transform idle-pulse idle-glow"
         >
           <i
             data-lucide="heart"
