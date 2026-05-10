@@ -479,6 +479,388 @@
         animation-delay: 0.8s;
       }
 
+      /* ================= FX: SIGNATURE EFFECTS ================= */
+      @keyframes textReveal {
+        0% {
+          clip-path: inset(0 100% 0 0);
+        }
+        100% {
+          clip-path: inset(0 0 0 0);
+        }
+      }
+      @keyframes shimmerSweep {
+        0%,
+        100% {
+          filter: brightness(1);
+          text-shadow: 0 0 0 transparent;
+        }
+        50% {
+          filter: brightness(1.28);
+          text-shadow: 0 0 22px rgba(255, 255, 255, 0.55),
+            0 0 8px rgba(255, 255, 255, 0.35);
+        }
+      }
+      @keyframes drawLine {
+        from {
+          stroke-dashoffset: var(--draw-length, 200);
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes typewriter {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes caretBlink {
+        0%,
+        100% {
+          border-right-color: rgba(255, 255, 255, 0.85);
+        }
+        50% {
+          border-right-color: transparent;
+        }
+      }
+      @keyframes parallaxLayer {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(15px, -10px);
+        }
+        50% {
+          transform: translate(-10px, -20px);
+        }
+        75% {
+          transform: translate(-20px, 10px);
+        }
+      }
+      @keyframes sparkleAppear {
+        0%,
+        100% {
+          transform: scale(0) rotate(0deg);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1) rotate(180deg);
+          opacity: 1;
+        }
+      }
+      @keyframes confettiFall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg);
+          opacity: 0.85;
+        }
+      }
+      @keyframes ringExpand {
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.7;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2.6);
+          opacity: 0;
+        }
+      }
+      @keyframes flipReveal {
+        0% {
+          transform: perspective(900px) rotateY(90deg);
+          opacity: 0;
+        }
+        100% {
+          transform: perspective(900px) rotateY(0deg);
+          opacity: 1;
+        }
+      }
+      @keyframes morphBlob {
+        0%,
+        100% {
+          border-radius: 42% 58% 63% 37% / 51% 44% 56% 49%;
+        }
+        25% {
+          border-radius: 58% 42% 38% 62% / 41% 60% 40% 59%;
+        }
+        50% {
+          border-radius: 35% 65% 55% 45% / 60% 38% 62% 40%;
+        }
+        75% {
+          border-radius: 60% 40% 50% 50% / 38% 55% 45% 62%;
+        }
+      }
+      @keyframes scrollReveal {
+        0% {
+          clip-path: inset(0 0 100% 0);
+          opacity: 0;
+        }
+        100% {
+          clip-path: inset(0 0 0 0);
+          opacity: 1;
+        }
+      }
+      @keyframes scrollRevealUp {
+        0% {
+          clip-path: inset(100% 0 0 0);
+          opacity: 0;
+        }
+        100% {
+          clip-path: inset(0 0 0 0);
+          opacity: 1;
+        }
+      }
+      @keyframes pulseRingMulti {
+        0% {
+          transform: translate(-50%, -50%) scale(0.9);
+          opacity: 0.85;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2.4);
+          opacity: 0;
+        }
+      }
+      @keyframes redFlash {
+        0%,
+        100% {
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        50% {
+          box-shadow: 0 0 35px 8px rgba(239, 68, 68, 0.55);
+        }
+      }
+
+      /* ===== FX classes ===== */
+      .fx-text-reveal {
+        clip-path: inset(0 100% 0 0);
+      }
+      .slide.active .fx-text-reveal {
+        animation: textReveal 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+      }
+
+      .fx-shimmer-sweep {
+        animation: shimmerSweep 2.8s ease-in-out infinite;
+      }
+
+      .fx-svg-draw path,
+      .fx-svg-draw polyline,
+      .fx-svg-draw line {
+        stroke-dasharray: var(--draw-length, 200);
+        stroke-dashoffset: var(--draw-length, 200);
+      }
+      .slide.active .fx-svg-draw path,
+      .slide.active .fx-svg-draw polyline,
+      .slide.active .fx-svg-draw line {
+        animation: drawLine 1.2s cubic-bezier(0.65, 0, 0.35, 1)
+          var(--draw-delay, 0.4s) forwards;
+      }
+
+      .fx-typewriter {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid rgba(255, 255, 255, 0.85);
+        max-width: 100%;
+      }
+      .slide.active .fx-typewriter {
+        animation: typewriter 1.6s steps(40, end) 0.6s both,
+          caretBlink 0.7s step-end infinite 0.6s;
+      }
+
+      .fx-parallax-bg {
+        isolation: isolate;
+      }
+      .fx-parallax-bg:not(.slide) {
+        position: relative;
+      }
+      .fx-parallax-bg::before,
+      .fx-parallax-bg::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+        filter: blur(40px);
+        opacity: 0.45;
+      }
+      .fx-parallax-bg::before {
+        top: -80px;
+        left: -60px;
+        width: 320px;
+        height: 320px;
+        background: var(--yellow);
+        animation: morphBlob 14s ease-in-out infinite,
+          parallaxLayer 22s ease-in-out infinite;
+      }
+      .fx-parallax-bg::after {
+        bottom: -60px;
+        right: -80px;
+        width: 360px;
+        height: 360px;
+        background: var(--blue);
+        animation: morphBlob 18s ease-in-out infinite reverse,
+          parallaxLayer 26s ease-in-out infinite reverse;
+      }
+
+      .fx-sparkle-burst {
+        position: relative;
+      }
+      .fx-sparkle-burst::before,
+      .fx-sparkle-burst::after {
+        content: "✦";
+        position: absolute;
+        color: var(--yellow);
+        font-size: 1.4rem;
+        opacity: 0;
+        pointer-events: none;
+        text-shadow: 0 0 12px rgba(250, 204, 21, 0.9);
+        animation: sparkleAppear 2.4s ease-in-out infinite;
+      }
+      .fx-sparkle-burst::before {
+        top: -8px;
+        right: -10px;
+        animation-delay: 0.2s;
+      }
+      .fx-sparkle-burst::after {
+        bottom: -6px;
+        left: -8px;
+        font-size: 1.1rem;
+        animation-delay: 1.1s;
+      }
+
+      .fx-confetti {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .confetti-piece {
+        position: absolute;
+        top: -20px;
+        width: 8px;
+        height: 14px;
+        border-radius: 2px;
+        animation: confettiFall 3.4s linear infinite;
+      }
+
+      .fx-aura-ring {
+        position: relative;
+      }
+      .fx-aura-ring::before,
+      .fx-aura-ring::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        border: 3px solid currentColor;
+        opacity: 0;
+        pointer-events: none;
+        animation: pulseRingMulti 2.6s ease-out infinite;
+      }
+      .fx-aura-ring::after {
+        animation-delay: 1.3s;
+      }
+
+      .fx-flip-in {
+        transform: perspective(900px) rotateY(90deg);
+        opacity: 0;
+        transform-origin: center;
+        backface-visibility: hidden;
+      }
+      .slide.active .fx-flip-in {
+        animation: flipReveal 0.85s cubic-bezier(0.2, 0.8, 0.2, 1)
+          var(--flip-delay, 0.4s) forwards;
+      }
+      .slide.active .fx-flip-in:nth-child(1) {
+        --flip-delay: 0.35s;
+      }
+      .slide.active .fx-flip-in:nth-child(2) {
+        --flip-delay: 0.5s;
+      }
+      .slide.active .fx-flip-in:nth-child(3) {
+        --flip-delay: 0.65s;
+      }
+      .slide.active .fx-flip-in:nth-child(4) {
+        --flip-delay: 0.8s;
+      }
+      .slide.active .fx-flip-in:nth-child(5) {
+        --flip-delay: 0.95s;
+      }
+
+      .fx-stat-counter {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .fx-scroll-reveal {
+        clip-path: inset(0 0 100% 0);
+        opacity: 0;
+      }
+      .slide.active .fx-scroll-reveal {
+        animation: scrollReveal 1.1s cubic-bezier(0.65, 0, 0.35, 1)
+          var(--reveal-delay, 0.4s) forwards;
+      }
+      .fx-scroll-reveal-up {
+        clip-path: inset(100% 0 0 0);
+        opacity: 0;
+      }
+      .slide.active .fx-scroll-reveal-up {
+        animation: scrollRevealUp 1.1s cubic-bezier(0.65, 0, 0.35, 1)
+          var(--reveal-delay, 0.4s) forwards;
+      }
+      .slide.active .fx-scroll-reveal:nth-child(1),
+      .slide.active .fx-scroll-reveal-up:nth-child(1) {
+        --reveal-delay: 0.35s;
+      }
+      .slide.active .fx-scroll-reveal:nth-child(2),
+      .slide.active .fx-scroll-reveal-up:nth-child(2) {
+        --reveal-delay: 0.55s;
+      }
+      .slide.active .fx-scroll-reveal:nth-child(3),
+      .slide.active .fx-scroll-reveal-up:nth-child(3) {
+        --reveal-delay: 0.75s;
+      }
+      .slide.active .fx-scroll-reveal:nth-child(4),
+      .slide.active .fx-scroll-reveal-up:nth-child(4) {
+        --reveal-delay: 0.95s;
+      }
+
+      .fx-red-flash {
+        animation: redFlash 2.2s ease-in-out infinite;
+      }
+
+      /* Reduced motion: disable decorative effects, keep core readability */
+      @media (prefers-reduced-motion: reduce) {
+        .fx-parallax-bg::before,
+        .fx-parallax-bg::after,
+        .fx-sparkle-burst::before,
+        .fx-sparkle-burst::after,
+        .fx-aura-ring::before,
+        .fx-aura-ring::after,
+        .fx-shimmer-sweep,
+        .fx-red-flash,
+        .confetti-piece,
+        .idle-particle,
+        .idle-orbit,
+        .idle-spin,
+        .idle-drift {
+          animation: none !important;
+        }
+        .fx-shimmer-sweep {
+          filter: none !important;
+          text-shadow: none !important;
+        }
+      }
+      /* ============================================================ */
+
       @media print {
         * {
           animation: none !important;
@@ -518,7 +900,7 @@
 
     <div id="presentation">
       <!-- Slide 1: Bìa -->
-      <div class="slide active bg-teal-slide justify-center gap-16">
+      <div class="slide active bg-teal-slide justify-center gap-16 fx-parallax-bg">
         <div class="w-5/12 flex flex-col justify-center">
           <!-- Badge -->
           <div
@@ -528,7 +910,7 @@
           </div>
 
           <!-- Title — one complete phrase -->
-          <h1 class="title-font drop-shadow-md text-white mb-0 leading-[1.35]">
+          <h1 class="title-font drop-shadow-md text-white mb-0 leading-[1.35] fx-text-reveal">
             <span style="font-size: 2.6rem; display: block; opacity: 0.95"
               >PHƯƠNG PHÁP TÁI TẠO</span
             >
@@ -630,7 +1012,7 @@
               style="animation-delay: 1s"
             ></div>
             <div
-              class="absolute inset-0 card-shape bg-teal-50 transform -rotate-3 p-8 flex flex-col items-center justify-center text-blue-900 border-4 border-white"
+              class="absolute inset-0 card-shape bg-teal-50 transform -rotate-3 p-8 flex flex-col items-center justify-center text-blue-900 border-4 border-white fx-scroll-reveal-up"
             >
               <div
                 class="w-48 h-48 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-blue-200 overflow-hidden idle-pulse"
@@ -684,7 +1066,7 @@
               </div>
             </div>
             <div
-              class="card-shape bg-yellow-400 p-6 text-blue-900 flex items-start gap-4 transform translate-x-4 idle-breathe"
+              class="card-shape bg-yellow-400 p-6 text-blue-900 flex items-start gap-4 transform translate-x-4 idle-breathe fx-sparkle-burst"
               style="animation-delay: 1.5s"
             >
               <div
@@ -714,13 +1096,13 @@
 
           <div class="flex gap-6 mb-6">
             <div
-              class="card-shape p-8 w-1/2 text-teal-800 flex flex-col justify-center shadow-xl"
+              class="card-shape p-8 w-1/2 text-teal-800 flex flex-col justify-center shadow-xl fx-flip-in"
             >
               <h3
                 class="text-7xl font-black text-teal-600 mb-2 title-font idle-pulse leading-none"
                 style="animation-duration: 3s"
               >
-                70%
+                <span class="fx-stat-counter" data-target="70">0</span>%
               </h3>
               <p class="font-black text-2xl leading-tight">
                 CA ĐẾN SPA<br />LÀ MỤN ẨN
@@ -730,7 +1112,7 @@
               </p>
             </div>
             <div
-              class="card-shape bg-red-500 p-8 w-1/2 text-white flex flex-col justify-center shadow-xl"
+              class="card-shape bg-red-500 p-8 w-1/2 text-white flex flex-col justify-center shadow-xl fx-flip-in"
             >
               <i
                 data-lucide="alert-triangle"
@@ -778,7 +1160,7 @@
       <div class="slide bg-blue-slide justify-between">
         <div class="w-1/2 flex justify-center items-center pl-8">
           <div
-            class="w-full bg-blue-800 rounded-3xl p-10 relative flex flex-col border-l-8 border-yellow-400 shadow-2xl idle-breathe"
+            class="w-full bg-blue-800 rounded-3xl p-10 relative flex flex-col border-l-8 border-yellow-400 shadow-2xl idle-breathe fx-parallax-bg"
           >
             <div
               class="flex items-center gap-8 border-b border-blue-700 pb-8 mb-8"
@@ -792,7 +1174,7 @@
               <div>
                 <p class="text-4xl font-black">Khách: Chị NTA</p>
                 <p class="text-2xl text-yellow-400 font-bold opacity-90 mt-2">
-                  Nữ | 24 Tuổi
+                  Nữ | <span class="fx-stat-counter" data-target="24">0</span> Tuổi
                 </p>
               </div>
             </div>
@@ -861,7 +1243,7 @@
                 class="text-8xl font-black title-font idle-pulse"
                 style="animation-duration: 3s"
               >
-                3 NĂM
+                <span class="fx-stat-counter" data-target="3">0</span> NĂM
               </h3>
               <p class="text-3xl font-black leading-tight uppercase drop-shadow-sm">
                 Mụn ẩn<br />Dai dẳng
@@ -902,7 +1284,7 @@
         <div class="w-[55%]">
           <div class="grid grid-cols-2 gap-4 h-full">
             <div
-              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg fx-scroll-reveal"
             >
               <div
                 class="p-4 bg-teal-50 rounded-2xl w-max mb-6 idle-soft-bounce"
@@ -916,7 +1298,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg fx-scroll-reveal"
             >
               <div
                 class="p-4 bg-red-50 rounded-2xl w-max mb-6 idle-soft-bounce"
@@ -930,7 +1312,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg fx-scroll-reveal"
             >
               <div
                 class="p-4 bg-yellow-50 rounded-2xl w-max mb-6 idle-soft-bounce"
@@ -944,7 +1326,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg fx-scroll-reveal"
             >
               <div
                 class="p-4 bg-blue-50 rounded-2xl w-max mb-6 idle-soft-bounce"
@@ -1021,7 +1403,7 @@
             </div>
             <div class="flex items-baseline gap-6 mt-6">
               <span class="text-8xl font-black text-white title-font"
-                >13<span class="text-4xl text-red-200">/15</span></span
+                ><span class="fx-stat-counter" data-target="13">0</span><span class="text-4xl text-red-200">/15</span></span
               >
             </div>
             <p class="text-2xl font-black mt-4 text-white uppercase tracking-wide">
@@ -1064,7 +1446,7 @@
           </h2>
           <div class="space-y-6">
             <div
-              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg fx-scroll-reveal-up"
             >
               <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
                 <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
@@ -1074,7 +1456,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg fx-scroll-reveal-up"
             >
               <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
                 <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
@@ -1084,7 +1466,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg fx-scroll-reveal-up"
             >
               <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
                 <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
@@ -1094,7 +1476,7 @@
               </p>
             </div>
             <div
-              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg fx-scroll-reveal-up"
             >
               <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
                 <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
@@ -1190,46 +1572,50 @@
         <div class="w-[50%] flex justify-center items-center">
           <div class="grid grid-cols-2 gap-4 w-full h-full">
             <div
-              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center"
+              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center fx-scroll-reveal-up"
             >
-              <i
-                data-lucide="test-tube-2"
-                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+              <img
+                src="./media/bha.png"
+                alt="BHA 2%"
+                class="w-32 h-32 object-contain mb-4 rounded-xl bg-white p-2 shadow-md idle-wiggle"
                 style="animation-delay: 0s"
-              ></i>
+              />
               <p class="font-bold text-xl uppercase">BHA 2%</p>
               <p class="opacity-70 mt-2">Xuyên dầu nhờn</p>
             </div>
             <div
-              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform translate-y-8"
+              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform translate-y-8 fx-scroll-reveal-up"
             >
-              <i
-                data-lucide="scissors"
-                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+              <img
+                src="./media/kim30g.png"
+                alt="Kim 30G"
+                class="w-32 h-32 object-contain mb-4 rounded-xl bg-white p-2 shadow-md idle-wiggle"
                 style="animation-delay: 1s"
-              ></i>
+              />
               <p class="font-bold text-xl uppercase">KIM 30G</p>
               <p class="opacity-70 mt-2">Trích vi phẫu</p>
             </div>
             <div
-              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform -translate-y-8"
+              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform -translate-y-8 fx-scroll-reveal-up"
             >
-              <i
-                data-lucide="zap"
-                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+              <img
+                src="./media/peel.png"
+                alt="SA Peel 20%"
+                class="w-32 h-32 object-contain mb-4 rounded-xl bg-white p-2 shadow-md idle-wiggle"
                 style="animation-delay: 2s"
-              ></i>
+              />
               <p class="font-bold text-xl uppercase">SA Peel 20%</p>
               <p class="opacity-70 mt-2">Sát khuẩn hốc</p>
             </div>
             <div
-              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center"
+              class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center fx-scroll-reveal-up"
             >
-              <i
-                data-lucide="shield-check"
-                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+              <img
+                src="./media/retinol.png"
+                alt="Retinol"
+                class="w-32 h-32 object-contain mb-4 rounded-xl bg-white p-2 shadow-md idle-wiggle"
                 style="animation-delay: 3s"
-              ></i>
+              />
               <p class="font-bold text-xl uppercase">Retinol</p>
               <p class="opacity-70 mt-2">Chống tái phát</p>
             </div>
@@ -1245,7 +1631,7 @@
           </h2>
           <div class="card-shape p-8 text-teal-900 border-l-[12px] border-yellow-400 shadow-xl relative overflow-hidden mb-6">
             <i data-lucide="sparkles" class="absolute -right-6 -top-6 w-24 h-24 text-teal-100 opacity-50 transform rotate-12"></i>
-            <h4 class="font-black text-4xl text-teal-700 mb-3 relative z-10">Làm mềm</h4>
+            <h4 class="font-black text-4xl text-teal-700 mb-3 relative z-10 fx-shimmer-sweep">Làm mềm</h4>
             <p class="font-bold opacity-95 text-xl leading-relaxed relative z-10">
               BHA làm mòn sừng. Cồi mụn gom trồi dần. Da hơi bong nhẹ ở mép.
             </p>
@@ -1268,10 +1654,10 @@
           </div>
         </div>
         <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/1.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/2.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
         </div>
@@ -1285,7 +1671,7 @@
           </h2>
           <div class="card-shape p-8 text-blue-900 border-l-[12px] border-red-500 shadow-xl mb-6 relative overflow-hidden">
             <i data-lucide="flame" class="absolute -right-4 -bottom-4 w-24 h-24 text-red-100 opacity-40 transform -rotate-12"></i>
-            <h4 class="font-black text-3xl text-red-600 mb-3 relative z-10">Bản Lề & Purging</h4>
+            <h4 class="font-black text-3xl text-red-600 mb-3 relative z-10 fx-shimmer-sweep">Bản Lề & Purging</h4>
             <p class="font-bold opacity-95 text-xl leading-relaxed relative z-10">
               Giai đoạn đẩy mụn (<span class="font-black italic">Purging</span>). Khách hoảng loạn đòi bỏ điều trị. KTV tiến hành lấy mụn.
             </p>
@@ -1304,14 +1690,14 @@
           </div>
         </div>
         <div class="w-7/12 flex flex-col gap-4 justify-center items-center">
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/3.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           <div class="w-[70%] flex gap-4">
-            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
               <img src="./media/4.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
-            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
               <img src="./media/5.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
           </div>
@@ -1326,17 +1712,17 @@
           </h2>
           <div class="card-shape p-10 text-teal-900 border-l-[16px] border-blue-500 shadow-2xl relative overflow-hidden">
             <i data-lucide="activity" class="absolute -right-6 -bottom-6 w-32 h-32 text-blue-100 opacity-50 transform rotate-6"></i>
-            <h4 class="font-black text-5xl text-blue-600 mb-6 relative z-10">Phục hồi & Bảo trì</h4>
+            <h4 class="font-black text-5xl text-blue-600 mb-6 relative z-10 fx-shimmer-sweep">Phục hồi & Bảo trì</h4>
             <p class="font-bold opacity-95 text-2xl leading-relaxed relative z-10">
               Mật độ mụn giảm xuống < 10%. Da phẳng hơn. Đưa Retinol vào bảo trì.
             </p>
           </div>
         </div>
         <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/6.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/7.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
         </div>
@@ -1350,17 +1736,17 @@
           </h2>
           <div class="card-shape p-10 text-blue-900 border-l-[16px] border-green-500 shadow-2xl relative overflow-hidden">
             <i data-lucide="shield-check" class="absolute -right-6 -bottom-6 w-32 h-32 text-green-100 opacity-50 transform -rotate-6"></i>
-            <h4 class="font-black text-5xl text-green-600 mb-6 relative z-10">Ổn định nền da</h4>
+            <h4 class="font-black text-5xl text-green-600 mb-6 relative z-10 fx-shimmer-sweep">Ổn định nền da</h4>
             <p class="font-bold opacity-95 text-2xl leading-relaxed relative z-10">
               Nền da ổn định lỳ như satin. Vết thâm bong gần hết. Không kích ứng thứ phát.
             </p>
           </div>
         </div>
         <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/8.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
-          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white fx-scroll-reveal">
             <img src="./media/9.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
         </div>
@@ -1371,7 +1757,7 @@
       <div class="slide bg-teal-slide justify-between">
         <div class="w-1/2 flex justify-center items-center relative pl-4">
           <div class="grid grid-cols-2 gap-6 w-full max-w-lg relative z-10">
-            <div class="card-shape p-5 text-center border-b-8 border-teal-500 hover:-translate-y-2 transition duration-300 shadow-xl bg-white flex flex-col">
+            <div class="card-shape p-5 text-center border-b-8 border-teal-500 hover:-translate-y-2 transition duration-300 shadow-xl bg-white flex flex-col fx-scroll-reveal-up">
               <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
                 <img src="https://m.media-amazon.com/images/I/61+k-VwGV8L._SL1500_.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Paula's Choice BHA 2%" />
               </div>
@@ -1381,7 +1767,7 @@
               </p>
             </div>
             
-            <div class="card-shape p-5 text-center border-b-8 border-blue-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col">
+            <div class="card-shape p-5 text-center border-b-8 border-blue-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col fx-scroll-reveal-up">
               <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
                 <img src="https://www.innoaesthetics.com/wp-content/uploads/2022/05/INNO-EXFO%C2%AE-AKN-Peel_WBlanco.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Innoaesthetics AKN Peel 20%" />
               </div>
@@ -1391,7 +1777,7 @@
               </p>
             </div>
 
-            <div class="card-shape p-5 text-center border-b-8 border-yellow-400 hover:-translate-y-2 transition duration-300 mt-8 shadow-xl bg-white flex flex-col">
+            <div class="card-shape p-5 text-center border-b-8 border-yellow-400 hover:-translate-y-2 transition duration-300 mt-8 shadow-xl bg-white flex flex-col fx-scroll-reveal-up">
               <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
                 <img src="https://www.skinceuticals.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-acd-skinceuticals-master-catalog/default/dw1278938f/pdpimages/hydrating-b5-gel-635494117004-skinceuticals-main.jpg?sw=930&sfrm=png&q=70" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="SkinCeuticals Hydrating B5 Gel" />
               </div>
@@ -1401,7 +1787,7 @@
               </p>
             </div>
 
-            <div class="card-shape p-5 text-center border-b-8 border-indigo-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col">
+            <div class="card-shape p-5 text-center border-b-8 border-indigo-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col fx-scroll-reveal-up">
               <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
                 <img src="https://product.hstatic.net/1000241635/product/obagi-medical-obagi360-retinol-0-5-362032070179-product-fron_3c8d5dbcdb184bb5851b20e492467dc9_master.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Obagi 360 Retinol 0.5%" />
               </div>
@@ -1453,110 +1839,110 @@
           <div class="space-y-4 mb-8 w-[115%] relative z-10 text-2xl font-black">
             <!-- 1 -->
             <div
-              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200 fx-scroll-reveal-up"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
+              <div class="w-4/12 text-right border-r-2 border-gray-100 pr-8">
                 <span
                   class="text-red-500 opacity-80 decoration-2 line-through"
                   >Dầu Tẩy Trang</span
                 >
               </div>
-              <div class="w-1/5 flex justify-center">
+              <div class="w-2/12 flex justify-center">
                 <i
                   data-lucide="arrow-right"
                   class="text-blue-500 w-8 h-8 idle-soft-bounce"
                   style="animation-delay: 0s"
                 ></i>
               </div>
-              <div class="w-2/5 pl-8">
+              <div class="w-6/12 pl-8">
                 <span class="text-teal-700">Nước tẩy trang Micellar</span>
               </div>
             </div>
  
             <!-- 2 -->
             <div
-              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200 fx-scroll-reveal-up"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
+              <div class="w-4/12 text-right border-r-2 border-gray-100 pr-8">
                 <span
                   class="text-red-500 opacity-80 decoration-2 line-through"
                   >SRM xà phòng</span
                 >
               </div>
-              <div class="w-1/5 flex justify-center">
+              <div class="w-2/12 flex justify-center">
                 <i
                   data-lucide="arrow-right"
                   class="text-blue-500 w-8 h-8 idle-soft-bounce"
                   style="animation-delay: 0.3s"
                 ></i>
               </div>
-              <div class="w-2/5 pl-8">
+              <div class="w-6/12 pl-8">
                 <span class="text-teal-700">Gel rửa mặt dịu nhẹ pH 5.5</span>
               </div>
             </div>
  
             <!-- 3 -->
             <div
-              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200 fx-scroll-reveal-up"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
+              <div class="w-4/12 text-right border-r-2 border-gray-100 pr-8">
                 <span
                   class="text-red-500 opacity-80 decoration-2 line-through"
                   >Sợ dùng Acid</span
                 >
               </div>
-              <div class="w-1/5 flex justify-center">
+              <div class="w-2/12 flex justify-center">
                 <i
                   data-lucide="arrow-right"
                   class="text-blue-500 w-8 h-8 idle-soft-bounce"
                   style="animation-delay: 0.6s"
                 ></i>
               </div>
-              <div class="w-2/5 pl-8">
+              <div class="w-6/12 pl-8">
                 <span class="text-teal-700">BHA tối + Retinol</span>
               </div>
             </div>
  
             <!-- 4 -->
             <div
-              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200 fx-scroll-reveal-up"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
+              <div class="w-4/12 text-right border-r-2 border-gray-100 pr-8">
                 <span
                   class="text-red-500 opacity-80 decoration-2 line-through"
                   >Kem sáp ong</span
                 >
               </div>
-              <div class="w-1/5 flex justify-center">
+              <div class="w-2/12 flex justify-center">
                 <i
                   data-lucide="arrow-right"
                   class="text-blue-500 w-8 h-8 idle-soft-bounce"
                   style="animation-delay: 0.9s"
                 ></i>
               </div>
-              <div class="w-2/5 pl-8">
+              <div class="w-6/12 pl-8">
                 <span class="text-teal-700">Gel dưỡng không chứa dầu</span>
               </div>
             </div>
  
             <!-- 5 -->
             <div
-              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200 fx-scroll-reveal-up"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
+              <div class="w-4/12 text-right border-r-2 border-gray-100 pr-8">
                 <span
                   class="text-red-500 opacity-80 decoration-2 line-through"
                   >Tự nặn, cạy mụn</span
                 >
               </div>
-              <div class="w-1/5 flex justify-center">
+              <div class="w-2/12 flex justify-center">
                 <i
                   data-lucide="arrow-right"
                   class="text-blue-500 w-8 h-8 idle-soft-bounce"
                   style="animation-delay: 1.2s"
                 ></i>
               </div>
-              <div class="w-2/5 pl-8">
+              <div class="w-6/12 pl-8">
                 <span class="text-teal-700">KTV chuẩn Y khoa</span>
               </div>
             </div>
@@ -1617,7 +2003,7 @@
             </h3>
             <div class="flex items-center gap-4 mb-6 relative z-10">
               <div class="text-center w-24 flex flex-col items-center">
-                <p class="text-4xl font-black title-font">13<span class="text-xl text-teal-400">/15</span></p>
+                <p class="text-4xl font-black title-font"><span class="fx-stat-counter" data-target="13">0</span><span class="text-xl text-teal-400">/15</span></p>
                 <p class="font-bold text-xs uppercase mt-1 opacity-80 tracking-wider">Rất tự ti</p>
               </div>
               <div class="flex-1 px-2">
@@ -1626,7 +2012,7 @@
                 </div>
               </div>
               <div class="text-center w-24 flex flex-col items-center">
-                <p class="text-4xl font-black title-font text-yellow-400">2<span class="text-xl text-teal-400">/15</span></p>
+                <p class="text-4xl font-black title-font text-yellow-400"><span class="fx-stat-counter" data-target="2">0</span><span class="text-xl text-teal-400">/15</span></p>
                 <p class="font-bold text-yellow-400 text-xs uppercase mt-1 tracking-wider">Phục hồi</p>
               </div>
             </div>
@@ -1641,7 +2027,7 @@
           <div class="flex gap-4">
             <div class="card-shape flex-1 text-blue-900 border-l-8 border-teal-500 p-5 flex flex-col justify-center shadow-lg hover:-translate-y-1 transition duration-300">
               <p class="text-xs font-bold uppercase text-gray-400 mb-1">MỤN ẨN (Clearance Rate)</p>
-              <h3 class="text-4xl font-black text-teal-600 title-font idle-pulse mb-1">98%</h3>
+              <h3 class="text-4xl font-black text-teal-600 title-font idle-pulse mb-1"><span class="fx-stat-counter" data-target="98">0</span>%</h3>
               <p class="font-bold text-sm">Gần như sạch hoàn toàn</p>
             </div>
             <div class="card-shape flex-1 text-blue-900 border-l-8 border-blue-500 p-5 flex flex-col justify-center shadow-lg hover:-translate-y-1 transition duration-300">
@@ -1653,11 +2039,11 @@
         </div>
 
         <div class="w-5/12 flex flex-col gap-4 justify-center">
-           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white fx-flip-in">
               <div class="absolute top-4 left-4 bg-red-500/90 backdrop-blur text-white text-lg font-black px-4 py-2 rounded-lg z-10 shadow-lg tracking-widest">TRƯỚC</div>
               <img src="./media/IMG_9975.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-center" />
            </div>
-           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white fx-flip-in">
               <div class="absolute top-4 left-4 bg-teal-500/90 backdrop-blur text-white text-lg font-black px-4 py-2 rounded-lg z-10 shadow-lg tracking-widest">SAU 8 TUẦN</div>
               <img src="./media/IMG_9976.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-center" />
            </div>
@@ -1672,7 +2058,7 @@
           </h2>
           
           <div class="space-y-6">
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-blue-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="droplets" class="w-7 h-7 text-blue-900"></i>
               </div>
@@ -1684,7 +2070,7 @@
               </div>
             </div>
 
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-yellow-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="zap" class="w-7 h-7 text-blue-900"></i>
               </div>
@@ -1696,7 +2082,7 @@
               </div>
             </div>
 
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-teal-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="leaf" class="w-7 h-7 text-blue-900"></i>
               </div>
@@ -1741,7 +2127,7 @@
           </h2>
           
           <div class="grid grid-cols-1 gap-6">
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-yellow-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="shield" class="w-7 h-7 text-teal-900"></i>
               </div>
@@ -1753,7 +2139,7 @@
               </div>
             </div>
 
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-teal-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="crosshair" class="w-7 h-7 text-teal-900"></i>
               </div>
@@ -1765,7 +2151,7 @@
               </div>
             </div>
 
-            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300 fx-scroll-reveal-up">
               <div class="w-14 h-14 bg-blue-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
                 <i data-lucide="sparkles" class="w-7 h-7 text-teal-900"></i>
               </div>
@@ -1792,7 +2178,7 @@
           <h2 class="title-font text-5xl inline-block relative">
             <span class="text-white drop-shadow-lg">KHÓ KHĂN</span>
             <span class="text-2xl mx-4 text-gray-300 opacity-50">&</span>
-            <span class="text-yellow-400 drop-shadow-xl">THÀNH QUẢ</span>
+            <span class="text-yellow-400 drop-shadow-xl fx-shimmer-sweep">THÀNH QUẢ</span>
             <div
               class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-48 h-1 rounded-full idle-gradient-bar"
             ></div>
@@ -1803,7 +2189,7 @@
           <!-- Left Column: Khó khăn -->
           <div class="w-1/2 flex flex-col pt-4">
             <div
-              class="card-shape p-8 bg-white text-blue-900 border-l-[12px] border-l-red-500 shadow-xl relative overflow-hidden hover:-translate-y-1 transition-transform duration-300 group"
+              class="card-shape p-8 bg-white text-blue-900 border-l-[12px] border-l-red-500 shadow-xl relative overflow-hidden hover:-translate-y-1 transition-transform duration-300 group fx-scroll-reveal-up"
             >
               <i
                 data-lucide="alert-octagon"
@@ -1859,7 +2245,7 @@
           <!-- Right Column: Thành quả -->
           <div class="w-1/2 flex flex-col pb-4">
             <div
-              class="card-shape bg-teal-800 text-white p-8 border-l-[12px] border-l-teal-400 shadow-xl relative overflow-hidden hover:-translate-y-1 transition-transform duration-300 group"
+              class="card-shape bg-teal-800 text-white p-8 border-l-[12px] border-l-teal-400 shadow-xl relative overflow-hidden hover:-translate-y-1 transition-transform duration-300 group fx-scroll-reveal-up"
             >
               <i
                 data-lucide="trophy"
@@ -1927,8 +2313,9 @@
       <div
         class="slide bg-teal-slide justify-center items-center flex-col text-center"
       >
+        <div class="fx-confetti"></div>
         <div
-          class="circle-shape w-32 h-32 bg-yellow-400 mb-8 mx-auto hover:scale-110 transition-transform idle-pulse idle-glow"
+          class="circle-shape w-32 h-32 bg-yellow-400 mb-8 mx-auto hover:scale-110 transition-transform idle-pulse idle-glow fx-aura-ring text-yellow-400"
         >
           <i
             data-lucide="heart"
@@ -1936,7 +2323,7 @@
           ></i>
         </div>
         <h2 class="text-7xl font-black mb-8 title-font">
-          TRÂN TRỌNG<br /><span class="text-yellow-400">CẢM ƠN HỘI ĐỒNG</span>
+          TRÂN TRỌNG<br /><span class="text-yellow-400 fx-shimmer-sweep">CẢM ƠN HỘI ĐỒNG</span>
         </h2>
 
         <div
@@ -1990,6 +2377,53 @@
         if (counterEl) {
           counterEl.innerText = `${currentSlide + 1} / ${slides.length}`;
         }
+        triggerStatCounters();
+        triggerConfetti();
+      }
+
+      function triggerStatCounters() {
+        const active = document.querySelector(".slide.active");
+        if (!active) return;
+        active
+          .querySelectorAll(".fx-stat-counter:not(.counted)")
+          .forEach((el) => {
+            const raw = el.dataset.target;
+            const target = parseFloat(raw);
+            if (!isFinite(target)) return;
+            const decimals = raw.includes(".") ? 1 : 0;
+            const duration = 1500;
+            const start = performance.now();
+            const tick = (now) => {
+              const t = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - t, 3);
+              el.textContent = (target * eased).toFixed(decimals);
+              if (t < 1) {
+                requestAnimationFrame(tick);
+              } else {
+                el.textContent = raw;
+                el.classList.add("counted");
+              }
+            };
+            requestAnimationFrame(tick);
+          });
+      }
+
+      function triggerConfetti() {
+        const host = document.querySelector(".slide.active .fx-confetti");
+        if (!host || host.dataset.spawned) return;
+        const palette = ["#facc15", "#3ba284", "#ef4444", "#ffffff", "#2380a0"];
+        for (let i = 0; i < 32; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti-piece";
+          piece.style.left = Math.random() * 100 + "%";
+          piece.style.animationDelay = (Math.random() * 2.4).toFixed(2) + "s";
+          piece.style.animationDuration =
+            (2.6 + Math.random() * 1.6).toFixed(2) + "s";
+          piece.style.background = palette[i % palette.length];
+          piece.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+          host.appendChild(piece);
+        }
+        host.dataset.spawned = "1";
       }
 
       function nextSlide() {
