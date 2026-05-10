@@ -57,7 +57,9 @@
         z-index: 10;
       }
       .bg-teal-slide {
-        background-color: var(--teal);
+        background-color: rgba(59, 162, 132, 0.45);
+        backdrop-filter: blur(60px);
+        -webkit-backdrop-filter: blur(60px);
       }
       /* Magical Fullscreen Fix for Object Cover */
       video:-webkit-full-screen {
@@ -70,7 +72,9 @@
         object-fit: contain !important;
       }
       .bg-blue-slide {
-        background-color: var(--blue);
+        background-color: rgba(35, 128, 160, 0.45);
+        backdrop-filter: blur(60px);
+        -webkit-backdrop-filter: blur(60px);
       }
 
       .controls {
@@ -891,9 +895,39 @@
           margin: 0;
         }
       }
+      /* GLOBAL AURORA BACKGROUND ANIMATION */
+      .aurora-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        overflow: hidden;
+        z-index: 0;
+        background: linear-gradient(135deg, #113833, #1e4b5e);
+      }
+      .aurora-blob {
+        position: absolute;
+        filter: blur(120px);
+        opacity: 0.6;
+        animation: aurora 25s infinite alternate ease-in-out;
+        border-radius: 50%;
+      }
+      .aurora-1 { width: 50vw; height: 50vw; background: #2dd4bf; top: -10vw; left: -10vw; animation-delay: 0s; }
+      .aurora-2 { width: 45vw; height: 45vw; background: #facc15; bottom: -10vw; right: -10vw; animation-delay: -5s; }
+      .aurora-3 { width: 60vw; height: 60vw; background: #0ea5e9; top: 15vw; left: 15vw; animation-delay: -10s; }
+      
+      @keyframes aurora {
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(8vw, 6vw) scale(1.15); }
+        100% { transform: translate(-6vw, -8vw) scale(0.9); }
+      }
     </style>
   </head>
   <body>
+    <!-- GLOBAL AURORA BACKGROUND -->
+    <div class="aurora-bg">
+      <div class="aurora-blob aurora-1"></div>
+      <div class="aurora-blob aurora-2"></div>
+      <div class="aurora-blob aurora-3"></div>
+    </div>
     <div class="progress-container">
       <div class="progress-bar" id="progressBar"></div>
     </div>
