@@ -21,7 +21,7 @@
         font-family: "Roboto", sans-serif;
         background-color: var(--teal);
         color: white;
-        overflow: hidden;
+        overflow-x: hidden; /* Cho phép scroll dọc khi zoom to 200% */
         margin: 0;
       }
       h1,
@@ -35,24 +35,23 @@
         letter-spacing: -0.01em;
       }
       .slide {
-        position: absolute;
+        position: absolute; /* Khi ẩn thì nổi bên dưới */
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        min-height: 100vh; /* Thay thế height: 100% để slide tự bung khi zoom 200% */
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.4s ease-in-out;
         display: flex;
         align-items: center;
-        /* Kéo 2 cột lại gần nhau bằng cách tự động tăng padding khi màn hình quá rộng (Max content 1200px) */
-        padding-left: max(4rem, calc(50vw - 600px));
-        padding-right: max(4rem, calc(50vw - 600px));
+        padding: 5vh 8vw; /* Thay thế padding tuyệt đối bằng tỉ lệ linh hoạt */
         justify-content: space-between;
-        gap: 4rem;
+        gap: 2vw;
         box-sizing: border-box;
       }
       .slide.active {
+        position: relative; /* Giúp body có thể nhận đúng chiều cao thật khi content vượt màn hình do zoom */
         opacity: 1;
         visibility: visible;
         z-index: 10;
@@ -175,57 +174,118 @@
       }
       /* FIX: idle-pulse was used but never defined */
       @keyframes idlePulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.06); }
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.06);
+        }
       }
       /* Soft shimmer effect for badges & labels */
       @keyframes shimmer {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
       }
       /* Gentle breathing for cards */
       @keyframes breathe {
-        0%, 100% { transform: scale(1); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        50% { transform: scale(1.015); box-shadow: 0 25px 35px -5px rgba(0,0,0,0.15); }
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        50% {
+          transform: scale(1.015);
+          box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.15);
+        }
       }
       /* Horizontal drift for background decorations */
       @keyframes driftX {
-        0%, 100% { transform: translateX(0) rotate(0deg); }
-        50% { transform: translateX(15px) rotate(3deg); }
+        0%,
+        100% {
+          transform: translateX(0) rotate(0deg);
+        }
+        50% {
+          transform: translateX(15px) rotate(3deg);
+        }
       }
       /* Wiggle for icons */
       @keyframes wiggle {
-        0%, 100% { transform: rotate(0deg); }
-        25% { transform: rotate(5deg); }
-        75% { transform: rotate(-5deg); }
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(5deg);
+        }
+        75% {
+          transform: rotate(-5deg);
+        }
       }
       /* Orbit for decorative dots */
       @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(12px) rotate(0deg); }
-        100% { transform: rotate(360deg) translateX(12px) rotate(-360deg); }
+        0% {
+          transform: rotate(0deg) translateX(12px) rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg) translateX(12px) rotate(-360deg);
+        }
       }
       /* Gradient shift for accent bars */
       @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
       /* Counter / progress bar grow */
       @keyframes growWidth {
-        from { width: 0%; }
-        to { width: 100%; }
+        from {
+          width: 0%;
+        }
+        to {
+          width: 100%;
+        }
       }
       /* Soft bounce for list items */
       @keyframes softBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-4px); }
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
       }
       /* Particle float for decorative elements */
       @keyframes particleFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-        25% { transform: translate(10px, -15px) scale(1.1); opacity: 0.6; }
-        50% { transform: translate(-5px, -25px) scale(0.95); opacity: 0.4; }
-        75% { transform: translate(8px, -10px) scale(1.05); opacity: 0.5; }
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 0.3;
+        }
+        25% {
+          transform: translate(10px, -15px) scale(1.1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translate(-5px, -25px) scale(0.95);
+          opacity: 0.4;
+        }
+        75% {
+          transform: translate(8px, -10px) scale(1.05);
+          opacity: 0.5;
+        }
       }
 
       .idle-float {
@@ -266,7 +326,13 @@
         pointer-events: none;
       }
       .idle-gradient-bar {
-        background: linear-gradient(90deg, var(--red), var(--yellow), var(--teal), var(--blue));
+        background: linear-gradient(
+          90deg,
+          var(--red),
+          var(--yellow),
+          var(--teal),
+          var(--blue)
+        );
         background-size: 300% 100%;
         animation: gradientShift 6s ease infinite;
       }
@@ -277,15 +343,19 @@
 
       /* Timeline number circle ripple */
       @keyframes rippleRing {
-        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-        100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2.2);
+          opacity: 0;
+        }
       }
       .timeline-circle {
         position: absolute;
-        left: -58px;
+        left: -78px;
         top: 0;
-        width: 48px;
-        height: 48px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -296,7 +366,7 @@
       }
       .timeline-circle::before,
       .timeline-circle::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -448,8 +518,8 @@
 
     <div id="presentation">
       <!-- Slide 1: Bìa -->
-      <div class="slide active bg-teal-slide justify-between">
-        <div class="w-1/2 flex flex-col justify-center">
+      <div class="slide active bg-teal-slide justify-center gap-16">
+        <div class="w-5/12 flex flex-col justify-center">
           <!-- Badge -->
           <div
             class="inline-block bg-yellow-400/20 backdrop-blur-sm border border-yellow-400/40 text-yellow-300 font-medium px-4 py-1.5 rounded-full text-xs tracking-widest mb-8 w-max idle-shimmer"
@@ -506,34 +576,54 @@
             </div>
           </div>
         </div>
-        <div class="w-1/2 flex justify-center items-center relative pl-4">
+        <div class="w-auto flex justify-center items-center relative pl-4">
           <div class="circle-shape w-96 h-96 idle-pulse">
-            <i data-lucide="sparkles" class="text-teal-600 w-48 h-48 idle-spin" style="animation-duration:40s"></i>
+            <i
+              data-lucide="sparkles"
+              class="text-teal-600 w-48 h-48 idle-spin"
+              style="animation-duration: 40s"
+            ></i>
             <!-- Floating particles around circle -->
-            <div class="absolute w-3 h-3 bg-yellow-300 rounded-full idle-particle" style="top:10%;left:15%;animation-delay:0s"></div>
-            <div class="absolute w-2 h-2 bg-white rounded-full idle-particle" style="top:70%;right:10%;animation-delay:2s"></div>
-            <div class="absolute w-2.5 h-2.5 bg-teal-200 rounded-full idle-particle" style="bottom:20%;left:5%;animation-delay:4s"></div>
+            <div
+              class="absolute w-3 h-3 bg-yellow-300 rounded-full idle-particle"
+              style="top: 10%; left: 15%; animation-delay: 0s"
+            ></div>
+            <div
+              class="absolute w-2 h-2 bg-white rounded-full idle-particle"
+              style="top: 70%; right: 10%; animation-delay: 2s"
+            ></div>
+            <div
+              class="absolute w-2.5 h-2.5 bg-teal-200 rounded-full idle-particle"
+              style="bottom: 20%; left: 5%; animation-delay: 4s"
+            ></div>
             <div
               class="absolute -right-10 top-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform rotate-6 idle-float"
               style="animation-delay: 0.5s"
             >
-              <i data-lucide="microscope" class="w-6 h-6 text-red-500 idle-wiggle"></i> Bạt
-              sừng Y Khoa
+              <i
+                data-lucide="microscope"
+                class="w-6 h-6 text-red-500 idle-wiggle"
+              ></i>
+              Bạt sừng Y Khoa
             </div>
             <div
               class="absolute -left-10 bottom-10 card-shape p-4 text-teal-800 font-bold flex items-center gap-2 transform -rotate-6 idle-float-reverse"
               style="animation-delay: 1s"
             >
-              <i data-lucide="crosshair" class="w-6 h-6 text-blue-500 idle-wiggle" style="animation-delay:2s"></i> Phục
-              hồi 8 Tuần
+              <i
+                data-lucide="crosshair"
+                class="w-6 h-6 text-blue-500 idle-wiggle"
+                style="animation-delay: 2s"
+              ></i>
+              Phục hồi 8 Tuần
             </div>
           </div>
         </div>
       </div>
 
       <!-- Slide 2: Giới thiệu bản thân -->
-      <div class="slide bg-blue-slide justify-between">
-        <div class="w-5/12 flex justify-center items-center">
+      <div class="slide bg-blue-slide justify-center gap-16">
+        <div class="w-4/12 flex justify-center items-center">
           <div class="relative w-full aspect-square max-w-md">
             <div
               class="absolute inset-0 bg-yellow-400 rounded-[3rem] transform rotate-3 idle-breathe"
@@ -546,29 +636,43 @@
                 class="w-48 h-48 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-blue-200 overflow-hidden idle-pulse"
                 style="animation-duration: 5s"
               >
-                <img
-                  src="./media/ngoclan.jpg"
-                  alt="Avatar Ngô Ngọc Lan"
-                  class="w-full h-full object-cover"
-                />
+                <div class="w-full h-full bg-gradient-to-br from-teal-500 to-blue-600 flex items-center justify-center text-white relative shadow-inner">
+                  <div class="absolute inset-3 border-2 border-dashed border-white/40 rounded-full idle-spin" style="animation-duration: 30s"></div>
+                  <h2 class="text-7xl font-black title-font tracking-tighter drop-shadow-lg relative z-10 mr-2">NL</h2>
+                  <i data-lucide="sparkles" class="absolute top-10 right-10 w-8 h-8 text-yellow-300 idle-pulse z-10"></i>
+                </div>
               </div>
               <h3 class="text-3xl font-black mb-2">NGÔ NGỌC LAN</h3>
-              <p class="font-bold text-gray-500 tracking-widest uppercase idle-shimmer">
-                Kỹ thuật viên Spa
+              <p
+                class="font-bold text-gray-500 tracking-widest uppercase idle-shimmer"
+              >
+                CĐ Việt Mỹ
               </p>
             </div>
             <!-- Floating decorative particles -->
-            <div class="absolute w-2 h-2 bg-yellow-400 rounded-full idle-particle" style="top:-5%;right:20%;animation-delay:1s"></div>
-            <div class="absolute w-3 h-3 bg-blue-300 rounded-full idle-particle" style="bottom:10%;left:-5%;animation-delay:3s"></div>
+            <div
+              class="absolute w-2 h-2 bg-yellow-400 rounded-full idle-particle"
+              style="top: -5%; right: 20%; animation-delay: 1s"
+            ></div>
+            <div
+              class="absolute w-3 h-3 bg-blue-300 rounded-full idle-particle"
+              style="bottom: 10%; left: -5%; animation-delay: 3s"
+            ></div>
           </div>
         </div>
-        <div class="w-7/12 pl-16">
+        <div class="w-6/12 pl-4">
           <h2 class="medium-text mb-8">
             KINH NGHIỆM <span class="text-yellow-400">THỰC TIỄN</span>
           </h2>
           <div class="space-y-6">
-            <div class="card-shape p-6 text-blue-900 flex items-start gap-4 idle-breathe" style="animation-delay:0.5s">
-              <div class="bg-blue-100 p-3 rounded-lg idle-soft-bounce" style="animation-delay:1s">
+            <div
+              class="card-shape p-6 text-blue-900 flex items-start gap-4 idle-breathe"
+              style="animation-delay: 0.5s"
+            >
+              <div
+                class="bg-blue-100 p-3 rounded-lg idle-soft-bounce"
+                style="animation-delay: 1s"
+              >
                 <i data-lucide="building-2" class="w-8 h-8 text-blue-600"></i>
               </div>
               <div>
@@ -581,9 +685,12 @@
             </div>
             <div
               class="card-shape bg-yellow-400 p-6 text-blue-900 flex items-start gap-4 transform translate-x-4 idle-breathe"
-              style="animation-delay:1.5s"
+              style="animation-delay: 1.5s"
             >
-              <div class="bg-yellow-100 p-3 rounded-lg idle-soft-bounce" style="animation-delay:2s">
+              <div
+                class="bg-yellow-100 p-3 rounded-lg idle-soft-bounce"
+                style="animation-delay: 2s"
+              >
                 <i data-lucide="target" class="w-8 h-8 text-yellow-600"></i>
               </div>
               <div>
@@ -599,63 +706,70 @@
       </div>
 
       <!-- Slide 3: Tại sao chọn -->
-      <div class="slide bg-teal-slide justify-between">
-        <div class="w-1/2 pr-10">
+      <div class="slide bg-teal-slide justify-center gap-16">
+        <div class="w-5/12 pr-4">
           <h2 class="medium-text mb-8">
             TẠI SAO <span class="text-yellow-400">CHỌN ĐỀ TÀI?</span>
           </h2>
 
           <div class="flex gap-6 mb-6">
             <div
-              class="card-shape p-6 w-1/2 text-teal-800 flex flex-col justify-center"
+              class="card-shape p-8 w-1/2 text-teal-800 flex flex-col justify-center shadow-xl"
             >
-              <h3 class="text-6xl font-black text-teal-600 mb-2 title-font idle-pulse" style="animation-duration:3s">
+              <h3
+                class="text-7xl font-black text-teal-600 mb-2 title-font idle-pulse leading-none"
+                style="animation-duration: 3s"
+              >
                 70%
               </h3>
-              <p class="font-bold text-xl leading-tight">
+              <p class="font-black text-2xl leading-tight">
                 CA ĐẾN SPA<br />LÀ MỤN ẨN
               </p>
-              <p class="text-sm mt-3 opacity-70">
+              <p class="text-lg mt-3 opacity-90 font-medium">
                 Dễ bị xem nhẹ do không viêm đỏ.
               </p>
             </div>
             <div
-              class="card-shape bg-red-500 p-6 w-1/2 text-white flex flex-col justify-center"
+              class="card-shape bg-red-500 p-8 w-1/2 text-white flex flex-col justify-center shadow-xl"
             >
               <i
                 data-lucide="alert-triangle"
-                class="w-10 h-10 mb-3 opacity-80 idle-wiggle"
+                class="w-12 h-12 mb-3 opacity-90 idle-wiggle"
               ></i>
-              <h3 class="text-4xl font-black mb-1 title-font">RỖ SẸO</h3>
-              <p class="font-bold text-lg leading-tight uppercase">
+              <h3 class="text-5xl font-black mb-1 title-font drop-shadow-sm">RỖ SẸO</h3>
+              <p class="font-black text-2xl leading-tight uppercase mt-1">
                 Chằng chịt
               </p>
-              <p class="text-sm mt-3 opacity-90">
+              <p class="text-lg mt-3 opacity-90 font-medium">
                 Hậu quả nặn khi chưa mở nắp sừng.
               </p>
             </div>
           </div>
         </div>
-        <div class="w-1/2 flex justify-center items-center pl-8">
+        <div class="w-5/12 flex justify-center items-center pl-4">
           <div
-            class="relative w-full max-w-lg aspect-[4/3] card-shape bg-teal-900 p-8 text-white flex flex-col justify-center items-center text-center overflow-hidden border-8 border-yellow-400"
+            class="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden border-4 border-yellow-400 shadow-[0_20px_50px_rgba(0,0,0,0.3)] group"
           >
-            <i
-              data-lucide="lightbulb"
-              class="w-32 h-32 text-yellow-400 mb-6 relative z-10 idle-glow"
-            ></i>
-            <h3 class="text-3xl font-bold relative z-10 mb-4">GIẢI PHÁP KTV</h3>
-            <p
-              class="text-lg opacity-90 relative z-10 w-4/5 mx-auto text-teal-100"
-            >
-              Áp dụng hóa học da liễu: Dùng
-              <span class="text-yellow-400 font-bold">BHA/AHA</span> làm mềm và
-              dọn đường biểu bì trước khi bắt đầu trích nhân.
-            </p>
-            <i
-              data-lucide="lightbulb"
-              class="absolute -right-10 -bottom-10 w-64 h-64 text-teal-800 opacity-50 idle-float"
-            ></i>
+            <img 
+              src="./media/2.jpeg" 
+              alt="Facial skin care treatment" 
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+            />
+            
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-900/80 to-teal-900/10"></div>
+
+            <!-- Content -->
+            <div class="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end text-center z-10 h-full">
+              <div class="mt-auto mb-6 bg-yellow-400/20 backdrop-blur-md rounded-full w-20 h-20 mx-auto flex items-center justify-center border border-yellow-400/50 idle-pulse">
+                <i data-lucide="sparkles" class="w-10 h-10 text-yellow-400 idle-spin" style="animation-duration: 20s"></i>
+              </div>
+              <h3 class="text-4xl font-black text-white mb-4 title-font tracking-wide drop-shadow-lg">GIẢI PHÁP TỐI ƯU</h3>
+              <p class="text-xl font-medium text-teal-50 drop-shadow-md w-11/12 mx-auto leading-relaxed">
+                Áp dụng hóa học da liễu: Dùng
+                <span class="text-yellow-400 font-bold text-3xl mx-1">BHA/AHA</span> làm mềm và dọn đường biểu bì trước khi trích nhân.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -664,60 +778,60 @@
       <div class="slide bg-blue-slide justify-between">
         <div class="w-1/2 flex justify-center items-center pl-8">
           <div
-            class="w-full h-[80%] bg-blue-800 rounded-3xl p-8 relative flex flex-col min-h-0 border-l-8 border-yellow-400 idle-breathe"
+            class="w-full bg-blue-800 rounded-3xl p-10 relative flex flex-col border-l-8 border-yellow-400 shadow-2xl idle-breathe"
           >
             <div
-              class="flex items-center gap-6 border-b border-blue-700 pb-6 mb-6"
+              class="flex items-center gap-8 border-b border-blue-700 pb-8 mb-8"
             >
               <div
-                class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-800 font-black text-3xl idle-pulse"
+                class="w-32 h-32 bg-white rounded-2xl flex items-center justify-center overflow-hidden border-4 border-white shadow-lg idle-pulse"
                 style="animation-duration: 5s"
               >
-                NTA
+                <img src="./media/IMG_9975.jpg" alt="Customer Photo" class="w-full h-full object-cover">
               </div>
               <div>
-                <p class="text-3xl font-black">Khách: Chị NTA</p>
-                <p class="text-xl text-yellow-400 opacity-90 mt-1">
+                <p class="text-4xl font-black">Khách: Chị NTA</p>
+                <p class="text-2xl text-yellow-400 font-bold opacity-90 mt-2">
                   Nữ | 24 Tuổi
                 </p>
               </div>
             </div>
-            <div class="flex-1 space-y-6">
-              <div class="flex gap-4">
+            <div class="flex-1 space-y-8">
+              <div class="flex gap-6">
                 <i
                   data-lucide="briefcase"
-                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
-                  style="animation-delay:0s"
+                  class="w-10 h-10 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay: 0s"
                 ></i>
                 <div>
-                  <p class="font-bold text-lg">Nghề nghiệp</p>
-                  <p class="opacity-80">
+                  <p class="font-black text-2xl mb-1">Nghề nghiệp</p>
+                  <p class="text-xl opacity-90 font-medium">
                     Giao dịch viên Ngân hàng (Phải trang điểm kỹ mỗi ngày)
                   </p>
                 </div>
               </div>
-              <div class="flex gap-4">
+              <div class="flex gap-6">
                 <i
                   data-lucide="thermometer-snowflake"
-                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
-                  style="animation-delay:1s"
+                  class="w-10 h-10 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay: 1s"
                 ></i>
                 <div>
-                  <p class="font-bold text-lg">Môi trường</p>
-                  <p class="opacity-80">
+                  <p class="font-black text-2xl mb-1">Môi trường</p>
+                  <p class="text-xl opacity-90 font-medium">
                     Máy lạnh 20-22°C (10 tiếng/ngày) làm bốc hơi độ ẩm da.
                   </p>
                 </div>
               </div>
-              <div class="flex gap-4">
+              <div class="flex gap-6">
                 <i
                   data-lucide="wind"
-                  class="w-8 h-8 text-blue-300 shrink-0 idle-soft-bounce"
-                  style="animation-delay:2s"
+                  class="w-10 h-10 text-blue-300 shrink-0 idle-soft-bounce"
+                  style="animation-delay: 2s"
                 ></i>
                 <div>
-                  <p class="font-bold text-lg">Khói bụi</p>
-                  <p class="opacity-80">
+                  <p class="font-black text-2xl mb-1">Khói bụi</p>
+                  <p class="text-xl opacity-90 font-medium">
                     Di chuyển xe máy, tiếp xúc bụi mịn PM2.5
                   </p>
                 </div>
@@ -725,26 +839,31 @@
             </div>
           </div>
         </div>
-        <div class="w-1/2 pl-10 flex flex-col justify-center">
+        <div class="w-1/2 pl-12 flex flex-col justify-center">
           <p
-            class="text-xl font-bold uppercase tracking-widest text-yellow-400 mb-2"
+            class="text-2xl font-bold uppercase tracking-widest text-yellow-400 mb-2"
           >
             ĐỐI TƯỢNG ĐIỀU TRỊ
           </p>
-          <h2 class="medium-text mb-8 leading-none">
-            HỒ SƠ <span class="text-yellow-400">KHÁCH HÀNG</span>
+          <h2 class="medium-text mb-10 leading-none">
+            HỒ SƠ <span class="text-yellow-400 font-black">KHÁCH HÀNG</span>
           </h2>
           <div
-            class="card-shape bg-red-500 p-8 text-white w-max transform rotate-2 idle-breathe"
+            class="card-shape bg-red-500 p-10 text-white w-max transform rotate-2 shadow-2xl idle-breathe"
           >
             <p
-              class="text-xl font-bold uppercase opacity-90 border-b border-red-400 pb-2 mb-4"
+              class="text-2xl font-black uppercase opacity-95 border-b-2 border-red-400 pb-3 mb-6"
             >
               Tình trạng ghi nhận
             </p>
-            <div class="flex items-center gap-6 mt-4">
-              <h3 class="text-7xl font-black title-font idle-pulse" style="animation-duration:3s">3 NĂM</h3>
-              <p class="text-2xl font-bold leading-tight uppercase">
+            <div class="flex items-center gap-8 mt-4">
+              <h3
+                class="text-8xl font-black title-font idle-pulse"
+                style="animation-duration: 3s"
+              >
+                3 NĂM
+              </h3>
+              <p class="text-3xl font-black leading-tight uppercase drop-shadow-sm">
                 Mụn ẩn<br />Dai dẳng
               </p>
             </div>
@@ -760,20 +879,20 @@
           >
             Buổi tư vấn
           </div>
-          <h2 class="medium-text mb-6">
-            4 SAI LẦM <span class="text-yellow-400">NGUY HẠI</span>
+          <h2 class="medium-text mb-8">
+            4 SAI LẦM <span class="text-yellow-400 font-black">NGUY HẠI</span>
           </h2>
-          <p class="text-xl opacity-90 italic">
+          <p class="text-2xl opacity-90 italic font-medium">
             Phát hiện sau 45 phút soi da và tư vấn khai thác thói quen:
           </p>
           <div
-            class="mt-8 bg-teal-800 p-6 rounded-2xl border border-teal-600 relative overflow-hidden"
+            class="mt-10 bg-teal-800 p-8 rounded-3xl border-2 border-teal-600 relative overflow-hidden shadow-2xl"
           >
             <i
               data-lucide="search"
-              class="absolute -right-6 -bottom-6 w-32 h-32 text-teal-700 opacity-50 idle-float"
+              class="absolute -right-8 -bottom-8 w-40 h-40 text-teal-700 opacity-40 idle-float"
             ></i>
-            <p class="text-lg font-medium relative z-10">
+            <p class="text-2xl font-bold relative z-10 leading-relaxed text-teal-50">
               Tất cả những thói quen này gộp lại vô tình biến bề mặt da thành
               "tấm bê tông" khóa chặt sợi bã nhờn, sinh ra mụn ẩn không lối
               thoát.
@@ -783,46 +902,58 @@
         <div class="w-[55%]">
           <div class="grid grid-cols-2 gap-4 h-full">
             <div
-              class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
             >
-              <div class="p-4 bg-teal-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:0s">
-                <i data-lucide="droplet-off" class="w-8 h-8 text-teal-600"></i>
+              <div
+                class="p-4 bg-teal-50 rounded-2xl w-max mb-6 idle-soft-bounce"
+                style="animation-delay: 0s"
+              >
+                <i data-lucide="droplet-off" class="w-10 h-10 text-teal-600"></i>
               </div>
-              <h4 class="font-black text-xl mb-1 mt-auto">Dầu tẩy trang</h4>
-              <p class="text-sm opacity-80">
+              <h4 class="font-black text-2xl mb-2 mt-auto">Dầu tẩy trang</h4>
+              <p class="text-lg opacity-90 font-medium leading-snug">
                 Dùng dầu dừa nhưng không nhũ hóa -> Cặn nhét chặt nang lông.
               </p>
             </div>
             <div
-              class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
             >
-              <div class="p-4 bg-red-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:0.5s">
-                <i data-lucide="shield-alert" class="w-8 h-8 text-red-500"></i>
+              <div
+                class="p-4 bg-red-50 rounded-2xl w-max mb-6 idle-soft-bounce"
+                style="animation-delay: 0.5s"
+              >
+                <i data-lucide="shield-alert" class="w-10 h-10 text-red-500"></i>
               </div>
-              <h4 class="font-black text-xl mb-1 mt-auto">Thiếu Acid</h4>
-              <p class="text-sm opacity-80">
+              <h4 class="font-black text-2xl mb-2 mt-auto">Thiếu Acid</h4>
+              <p class="text-lg opacity-90 font-medium leading-snug">
                 Sợ hóa chất nên không dùng Acid tẩy da chết -> Sừng hóa tích tụ.
               </p>
             </div>
             <div
-              class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
             >
-              <div class="p-4 bg-yellow-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:1s">
-                <i data-lucide="lock" class="w-8 h-8 text-yellow-600"></i>
+              <div
+                class="p-4 bg-yellow-50 rounded-2xl w-max mb-6 idle-soft-bounce"
+                style="animation-delay: 1s"
+              >
+                <i data-lucide="lock" class="w-10 h-10 text-yellow-600"></i>
               </div>
-              <h4 class="font-black text-xl mb-1 mt-auto">Khóa kín da</h4>
-              <p class="text-sm opacity-80">
+              <h4 class="font-black text-2xl mb-2 mt-auto">Khóa kín da</h4>
+              <p class="text-lg opacity-90 font-medium leading-snug">
                 Dùng kem sáp ong/Petrolatum khóa đặc bã nhờn bên dưới.
               </p>
             </div>
             <div
-              class="card-shape p-6 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300"
+              class="card-shape p-8 text-teal-900 flex flex-col hover:scale-105 transition-transform duration-300 shadow-lg"
             >
-              <div class="p-4 bg-blue-50 rounded-full w-max mb-4 idle-soft-bounce" style="animation-delay:1.5s">
-                <i data-lucide="hand" class="w-8 h-8 text-blue-600"></i>
+              <div
+                class="p-4 bg-blue-50 rounded-2xl w-max mb-6 idle-soft-bounce"
+                style="animation-delay: 1.5s"
+              >
+                <i data-lucide="hand" class="w-10 h-10 text-blue-600"></i>
               </div>
-              <h4 class="font-black text-xl mb-1 mt-auto">Tự nặn tay</h4>
-              <p class="text-sm opacity-80">
+              <h4 class="font-black text-2xl mb-2 mt-auto">Tự nặn tay</h4>
+              <p class="text-lg opacity-90 font-medium leading-snug">
                 Cạy vỡ nang ngầm viêm dưới da gây thâm và sẹo rỗ thứ phát.
               </p>
             </div>
@@ -831,10 +962,10 @@
       </div>
 
       <!-- Slide 6: Tình trạng -->
-      <div class="slide bg-blue-slide justify-between">
-        <div class="w-1/2 flex items-center justify-center">
+      <div class="slide bg-blue-slide justify-center gap-16">
+        <div class="w-5/12 flex items-center justify-center">
           <div
-            class="card-shape w-full max-w-md p-8 bg-white border-[12px] border-blue-900 shadow-2xl relative"
+            class="card-shape w-full max-w-2xl p-8 bg-white border-[12px] border-blue-900 shadow-2xl relative"
           >
             <i
               data-lucide="scan-line"
@@ -844,12 +975,12 @@
               MÁY SOI DA WOOD'S LAMP
             </p>
             <div
-              class="w-full h-[280px] rounded-xl overflow-hidden shadow-inner mb-6 relative"
+              class="w-full rounded-xl overflow-hidden shadow-inner mb-6 relative"
             >
               <img
-                src="./media/IMG_9975.jpg"
+                src="./media/phantichda.jpeg"
                 alt="Tình trạng da mụn ẩn"
-                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                class="w-full h-auto hover:scale-105 transition-transform duration-500"
               />
             </div>
             <div class="space-y-3">
@@ -874,109 +1005,101 @@
             </div>
           </div>
         </div>
-        <div class="w-1/2 pl-10 flex flex-col justify-center">
+        <div class="w-5/12 pl-4 flex flex-col justify-center">
           <h2 class="medium-text mb-8">
             TÌNH TRẠNG <span class="text-yellow-400">TẠI SPA</span>
           </h2>
 
-          <div class="card-shape bg-red-500 p-8 min-w-[300px] w-max">
-            <div class="flex items-center gap-4 mb-2">
-              <i data-lucide="activity" class="w-8 h-8 text-white"></i>
+          <div class="card-shape bg-red-500 p-10 min-w-[350px] w-max shadow-2xl">
+            <div class="flex items-center gap-6 mb-4">
+              <i data-lucide="activity" class="w-10 h-10 text-white"></i>
               <p
-                class="font-bold uppercase tracking-wider text-sm opacity-90 text-white"
+                class="font-black uppercase tracking-widest text-lg opacity-95 text-white"
               >
                 Chỉ số tâm lý CADI
               </p>
             </div>
-            <div class="flex items-baseline gap-4 mt-4">
-              <span class="text-7xl font-black text-white title-font"
-                >13<span class="text-3xl text-red-200">/15</span></span
+            <div class="flex items-baseline gap-6 mt-6">
+              <span class="text-8xl font-black text-white title-font"
+                >13<span class="text-4xl text-red-200">/15</span></span
               >
             </div>
-            <p class="text-xl font-bold mt-2 text-white">
+            <p class="text-2xl font-black mt-4 text-white uppercase tracking-wide">
               Trạng thái Cực kỳ căng thẳng
             </p>
-            <p class="text-sm mt-2 text-red-100 opacity-90">
+            <p class="text-lg mt-3 text-red-100 font-medium opacity-90 leading-relaxed max-w-sm">
               Mụn ẩn ảnh hưởng nặng nề đến sự tự tin giao tiếp.
             </p>
           </div>
 
-          <div
-            class="mt-8 relative overflow-hidden rounded-2xl shadow-2xl border-4 border-white/90 hover:border-yellow-400 group max-w-lg aspect-video bg-black mx-0"
-          >
-            <video controls class="w-full h-full object-cover">
-              <source src="./media/video02.mov" type="video/mp4" />
-            </video>
-            <div
-              class="absolute top-4 left-4 bg-teal-600 text-white font-bold px-3 py-1 text-xs rounded-full shadow-lg z-20 pointer-events-none uppercase"
-            >
-              Video Khám Da
-            </div>
-          </div>
+
         </div>
       </div>
 
       <!-- Slide 7: Mong muốn -->
-      <div class="slide bg-teal-slide justify-between">
-        <div class="w-5/12 flex justify-center items-center">
-          <div
-            class="card-shape bg-yellow-400 p-10 transform -rotate-3 text-teal-900 shadow-2xl relative"
-          >
-            <i
-              data-lucide="star"
-              class="absolute -top-6 -right-6 w-16 h-16 text-yellow-500 fill-yellow-500 idle-float"
-            ></i>
-            <h3 class="title-font text-4xl mb-6 whitespace-nowrap">
-              MỤC TIÊU CỐT LÕI
-            </h3>
-            <p class="font-bold text-lg italic leading-relaxed">
-              "Chị chỉ muốn có thể tự tin để mặt mộc ra ngoài đi làm mà không
-              cần chát lớp kem nền phủ kín lỗ chân lông."
-            </p>
+      <div class="slide bg-teal-slide justify-center gap-16">
+        <div class="w-4/12 flex justify-center items-center">
+          <div class="relative w-full aspect-[3/4] max-w-sm rounded-[3rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.4)] border-8 border-white group">
+             <img src="./media/5.jpeg" alt="Happy skin" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+             <div class="absolute inset-0 bg-gradient-to-t from-teal-900/80 to-transparent"></div>
+             <div
+               class="card-shape bg-yellow-400 p-8 absolute bottom-6 inset-x-6 transform -rotate-2 text-teal-900 shadow-2xl z-10"
+             >
+               <i
+                 data-lucide="star"
+                 class="absolute -top-6 -right-6 w-14 h-14 text-yellow-600 fill-yellow-500 idle-float"
+               ></i>
+               <h3 class="title-font text-3xl font-black mb-4">
+                 MỤC TIÊU CỐT LÕI
+               </h3>
+               <p class="font-bold text-lg italic leading-relaxed">
+                 "Chị chỉ muốn có thể tự tin để mặt mộc ra ngoài đi làm..."
+               </p>
+             </div>
           </div>
         </div>
-        <div class="w-7/12 pl-12 flex flex-col justify-center">
-          <h2 class="medium-text mb-8">
-            MONG MUỐN <span class="text-yellow-400">KHÁCH HÀNG</span>
+        <div class="w-6/12 pl-4 flex flex-col justify-center">
+          <h2 class="medium-text mb-10">
+            MONG MUỐN <span class="text-yellow-400 font-black">KHÁCH HÀNG</span>
           </h2>
-          <div class="space-y-4">
+          <div class="space-y-6">
             <div
-              class="card-shape p-4 flex items-center gap-4 hover:-translate-y-1 transition duration-200"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
             >
-              <div class="bg-teal-100 p-3 rounded-full shrink-0">
-                <i data-lucide="check" class="text-teal-600"></i>
+              <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
+                <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
               </div>
-              <p class="font-bold text-lg text-teal-900">
+              <p class="font-black text-2xl text-teal-900">
                 Tự tin để mặt mộc với kem chống nắng
               </p>
             </div>
             <div
-              class="card-shape p-4 flex items-center gap-4 hover:-translate-y-1 transition duration-200"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
             >
-              <div class="bg-teal-100 p-3 rounded-full shrink-0">
-                <i data-lucide="check" class="text-teal-600"></i>
+              <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
+                <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
               </div>
-              <p class="font-bold text-lg text-teal-900">
+              <p class="font-black text-2xl text-teal-900">
                 Đẩy lùi hoàn toàn mụn ẩn, KHÔNG bùng viêm
               </p>
             </div>
             <div
-              class="card-shape p-4 flex items-center gap-4 hover:-translate-y-1 transition duration-200"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
             >
-              <div class="bg-teal-100 p-3 rounded-full shrink-0">
-                <i data-lucide="check" class="text-teal-600"></i>
+              <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
+                <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
               </div>
-              <p class="font-bold text-lg text-teal-900">
+              <p class="font-black text-2xl text-teal-900">
                 Sờ tay lên trán cảm giác phẳng mịn
               </p>
             </div>
             <div
-              class="card-shape p-4 flex items-center gap-4 hover:-translate-y-1 transition duration-200"
+              class="card-shape p-6 flex items-center gap-6 hover:-translate-y-1 transition duration-200 shadow-lg"
             >
-              <div class="bg-teal-100 p-3 rounded-full shrink-0">
-                <i data-lucide="check" class="text-teal-600"></i>
+              <div class="bg-teal-100 p-4 rounded-full shrink-0 shadow-inner">
+                <i data-lucide="check" class="text-teal-600 w-8 h-8"></i>
               </div>
-              <p class="font-bold text-lg text-teal-900">
+              <p class="font-black text-2xl text-teal-900">
                 Trang điểm mượt mà, không bị vón cục mốc nền
               </p>
             </div>
@@ -1000,65 +1123,79 @@
           </div>
 
           <div
-            class="flex flex-col gap-6 relative ml-6 border-l-4 border-dashed border-teal-700 pl-8 pb-4"
+            class="flex flex-col gap-6 relative ml-8 border-l-4 border-dashed border-teal-700 pl-12 pb-6"
           >
             <div class="relative z-10">
               <div
-                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500"
+                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500 w-14 h-14 text-xl"
               >
                 1
               </div>
-              <h4 class="text-2xl font-bold text-yellow-300 mb-2">
+              <h4 class="text-3xl font-black text-yellow-300 mb-2">
                 Tuần 1 - 2: Làm mềm
               </h4>
-              <p class="text-lg opacity-90 leading-snug">
+              <p class="text-xl opacity-95 font-medium leading-relaxed">
                 KHÔNG NẶN. Sử dụng Enzyme hữu cơ và BHA 2% làm mềm lớp sừng, từ
                 từ hé mở nắp mụn.
               </p>
             </div>
-
-            <div class="relative z-10 mt-4">
+ 
+            <div class="relative z-10">
               <div
-                class="timeline-circle bg-yellow-400 text-yellow-400 border-4 border-teal-500"
+                class="timeline-circle bg-yellow-400 text-yellow-400 border-4 border-teal-500 w-14 h-14 text-xl"
                 style="animation-delay: 0.5s"
               >
                 <span class="text-teal-900">2</span>
               </div>
-              <h4 class="text-2xl font-bold text-yellow-300 mb-2">
-                Tuần 3 - 6: Trích nhân
+              <h4 class="text-3xl font-black text-yellow-300 mb-2">
+                Tuần 3 - 4: Bản lề & Purging
               </h4>
-              <p class="text-lg opacity-90 leading-snug">
+              <p class="text-xl opacity-95 font-medium leading-relaxed">
                 Khi đầu mụn trắng, lộ bề mặt -> Trích bằng kim 30G. Kết hợp SA
                 Peel 20% sát khuẩn sạch ổ.
               </p>
             </div>
-
-            <div class="relative z-10 mt-4">
+ 
+            <div class="relative z-10">
               <div
-                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500"
+                class="timeline-circle bg-white text-teal-500 border-4 border-teal-500 w-14 h-14 text-xl"
                 style="animation-delay: 1s"
               >
                 <span class="text-teal-800">3</span>
               </div>
-              <h4 class="text-2xl font-bold text-yellow-300 mb-2">
-                Tuần 7 - 8: Phục hồi
+              <h4 class="text-3xl font-black text-yellow-300 mb-2">
+                Tuần 5 - 6: Phục hồi
               </h4>
-              <p class="text-lg opacity-90 leading-snug">
-                Đưa máy điện di Cryo kết hợp B5/HA phục hồi sâu. Bổ sung Retinol
-                0.5% chống tắc nghẽn lại.
+              <p class="text-xl opacity-95 font-medium leading-relaxed">
+                Đưa máy điện di Cryo kết hợp B5/HA phục hồi sâu. Mật độ mụn giảm xuống < 10%.
+              </p>
+            </div>
+
+            <div class="relative z-10">
+              <div
+                class="timeline-circle bg-yellow-400 text-yellow-400 border-4 border-teal-500 w-14 h-14 text-xl"
+                style="animation-delay: 1.5s"
+              >
+                <span class="text-teal-900">4</span>
+              </div>
+              <h4 class="text-3xl font-black text-yellow-300 mb-2">
+                Tuần 7 - 8: Ổn định
+              </h4>
+              <p class="text-xl opacity-95 font-medium leading-relaxed">
+                Nền da ổn định lỳ như satin. Bổ sung Retinol 0.5% duy trì chống tắc nghẽn tái phát.
               </p>
             </div>
           </div>
         </div>
         <div class="w-[50%] flex justify-center items-center">
-          <div class="grid grid-cols-2 gap-4 w-full h-[80%]">
+          <div class="grid grid-cols-2 gap-4 w-full h-full">
             <div
               class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center"
             >
               <i
                 data-lucide="test-tube-2"
                 class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
-                style="animation-delay:0s"
+                style="animation-delay: 0s"
               ></i>
               <p class="font-bold text-xl uppercase">BHA 2%</p>
               <p class="opacity-70 mt-2">Xuyên dầu nhờn</p>
@@ -1069,7 +1206,7 @@
               <i
                 data-lucide="scissors"
                 class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
-                style="animation-delay:1s"
+                style="animation-delay: 1s"
               ></i>
               <p class="font-bold text-xl uppercase">KIM 30G</p>
               <p class="opacity-70 mt-2">Trích vi phẫu</p>
@@ -1077,7 +1214,11 @@
             <div
               class="card-shape bg-teal-800 p-6 flex flex-col justify-center items-center border border-teal-600 text-center transform -translate-y-8"
             >
-              <i data-lucide="zap" class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle" style="animation-delay:2s"></i>
+              <i
+                data-lucide="zap"
+                class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
+                style="animation-delay: 2s"
+              ></i>
               <p class="font-bold text-xl uppercase">SA Peel 20%</p>
               <p class="opacity-70 mt-2">Sát khuẩn hốc</p>
             </div>
@@ -1087,7 +1228,7 @@
               <i
                 data-lucide="shield-check"
                 class="w-16 h-16 text-yellow-400 mb-4 idle-wiggle"
-                style="animation-delay:3s"
+                style="animation-delay: 3s"
               ></i>
               <p class="font-bold text-xl uppercase">Retinol</p>
               <p class="opacity-70 mt-2">Chống tái phát</p>
@@ -1096,249 +1237,176 @@
         </div>
       </div>
 
-      <!-- Slide 9: Chi tiết Pha 1 -->
-      <div class="slide bg-blue-slide justify-between">
-        <div class="w-1/2 pr-10">
-          <h2 class="medium-text mb-8">
-            PHA 1 <span class="text-yellow-400">LÀM MỀM</span>
+      <!-- Slide 13.1: Tuần 1-2 -->
+      <div class="slide bg-teal-slide justify-between">
+        <div class="w-5/12 pr-10 flex flex-col justify-center">
+          <h2 class="medium-text mb-6">
+            DIỄN BIẾN <span class="text-yellow-400">TUẦN 1 - 2</span>
           </h2>
-          <div class="card-shape bg-red-500 p-6 text-white mb-6">
-            <p
-              class="font-bold text-xl uppercase tracking-widest mb-2 flex items-center gap-2"
-            >
-              <i data-lucide="alert-triangle"></i> NGUYÊN TẮC VÀNG
+          <div class="card-shape p-8 text-teal-900 border-l-[12px] border-yellow-400 shadow-xl relative overflow-hidden mb-6">
+            <i data-lucide="sparkles" class="absolute -right-6 -top-6 w-24 h-24 text-teal-100 opacity-50 transform rotate-12"></i>
+            <h4 class="font-black text-4xl text-teal-700 mb-3 relative z-10">Làm mềm</h4>
+            <p class="font-bold opacity-95 text-xl leading-relaxed relative z-10">
+              BHA làm mòn sừng. Cồi mụn gom trồi dần. Da hơi bong nhẹ ở mép.
             </p>
-            <p class="text-lg">
-              Phải dành 2 tuần dùng BHA "đào hầm" nới lỏng sừng trước khi nặn.
-              Nặn ngay buổi đầu là
-              <strong class="text-yellow-300">sai lầm lớn nhất.</strong>
-            </p>
+          </div>
+          <div class="flex flex-col gap-4">
+             <div class="bg-red-500 text-white p-5 rounded-2xl shadow-lg border border-red-400">
+               <h5 class="font-bold text-lg mb-1 flex items-center gap-2 uppercase tracking-wide"><i data-lucide="alert-triangle" class="w-5 h-5"></i> Nguyên tắc vàng</h5>
+               <p class="text-base font-medium opacity-95">Phải dành 2 tuần dùng BHA "đào hầm". Nặn ngay lúc này là sai lầm lớn nhất.</p>
+             </div>
+             <div class="bg-blue-50 text-blue-900 p-5 rounded-2xl shadow-lg border-2 border-blue-200 flex gap-6">
+                 <div class="flex-1">
+                   <h5 class="font-black text-lg mb-2 text-blue-700 flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Tại Spa</h5>
+                   <p class="text-sm font-bold opacity-90 leading-relaxed">Tẩy sừng Enzyme 10% + Sủi bọt siêu âm gạt bề mặt.</p>
+                 </div>
+                 <div class="flex-1 border-l-2 border-blue-200 pl-6">
+                   <h5 class="font-black text-lg mb-2 text-blue-700 flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> Tại nhà</h5>
+                   <p class="text-sm font-bold opacity-90 leading-relaxed">Đổi sang Micellar, Gel pH 5.5, BHA 2% & Gel B5.</p>
+                 </div>
+             </div>
           </div>
         </div>
-        <div class="w-1/2 flex flex-col justify-center">
-          <div
-            class="card-shape p-8 relative shadow-xl border-t-8 border-blue-500 mb-6"
-          >
-            <h3 class="text-2xl font-black text-blue-900 mb-4">
-              Tại Spa (2 Buổi/Tuần)
-            </h3>
-            <ul class="space-y-3 opacity-90 text-blue-800 font-medium text-lg">
-              <li class="flex items-center gap-3">
-                <i data-lucide="sparkles" class="text-blue-500 shrink-0"></i>
-                Tẩy da chết Enzyme 10% + Xông hơi nới nang.
-              </li>
-              <li class="flex items-center gap-3">
-                <i data-lucide="activity" class="text-blue-500 shrink-0"></i>
-                Sủi bọt sóng siêu âm gạt tế bào sừng bề mặt.
-              </li>
-            </ul>
+        <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/1.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
-          <div
-            class="card-shape p-8 relative shadow-xl border-t-8 border-yellow-400"
-          >
-            <h3 class="text-2xl font-black text-blue-900 mb-4">
-              Tại Nhà (Chăm sóc)
-            </h3>
-            <ul class="space-y-3 opacity-90 text-blue-800 font-medium text-lg">
-              <li class="flex items-center gap-3">
-                <i data-lucide="droplet" class="text-yellow-500 shrink-0"></i>
-                Bỏ dầu tẩy trang -> Chuyển dòng Micellar.
-              </li>
-              <li class="flex items-center gap-3">
-                <i
-                  data-lucide="shield-check"
-                  class="text-yellow-500 shrink-0"
-                ></i>
-                Rửa mặt bằng Gel Amino Acid pH 5.5.
-              </li>
-              <li class="flex items-center gap-3">
-                <i data-lucide="zap" class="text-yellow-500 shrink-0"></i> Dùng
-                <strong>BHA 2%</strong> 2-3 lần/tuần + Gel B5.
-              </li>
-            </ul>
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/2.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
         </div>
       </div>
 
-      <!-- Slide 10: Kỹ thuật -->
+      <!-- Slide 13.2: Tuần 3-4 -->
       <div class="slide bg-blue-slide justify-between">
-        <div
-          class="w-1/2 flex justify-center items-center gap-8 relative pl-4 pr-8"
-        >
-          <div
-            class="circle-shape w-96 h-96 bg-blue-500 opacity-20 absolute idle-pulse"
-            style="animation-duration:6s"
-          ></div>
-
-          <!-- Card 1 -->
-          <div
-            class="card-shape flex flex-col w-64 bg-white p-6 border-t-8 border-yellow-400 relative z-10 transform -translate-y-16 shadow-2xl hover:-translate-y-20 transition-all duration-300"
-          >
-            <div
-              class="flex items-center gap-3 border-b border-gray-100 pb-3 mb-3"
-            >
-              <i
-                data-lucide="crosshair"
-                class="w-12 h-12 text-blue-600 shrink-0"
-              ></i>
-              <div>
-                <h3
-                  class="text-2xl font-black text-blue-900 whitespace-nowrap overflow-visible"
-                >
-                  Kim 30G Y Tế
-                </h3>
-                <p
-                  class="text-xs font-bold text-gray-500 uppercase tracking-wide"
-                >
-                  Đường kính siêu nhỏ
-                </p>
-              </div>
-            </div>
-            <p class="text-blue-800 font-bold leading-relaxed text-[15px]">
-              Góc 45 độ, rạch nhẹ đúng 0.5mm bề mặt để mở miệng, KHÔNG đâm rách
-              phá vỡ mao mạch phía sau nang mụn.
+        <div class="w-5/12 pr-10 flex flex-col justify-center">
+          <h2 class="medium-text mb-6">
+            DIỄN BIẾN <span class="text-yellow-400">TUẦN 3 - 4</span>
+          </h2>
+          <div class="card-shape p-8 text-blue-900 border-l-[12px] border-red-500 shadow-xl mb-6 relative overflow-hidden">
+            <i data-lucide="flame" class="absolute -right-4 -bottom-4 w-24 h-24 text-red-100 opacity-40 transform -rotate-12"></i>
+            <h4 class="font-black text-3xl text-red-600 mb-3 relative z-10">Bản Lề & Purging</h4>
+            <p class="font-bold opacity-95 text-xl leading-relaxed relative z-10">
+              Giai đoạn đẩy mụn (<span class="font-black italic">Purging</span>). Khách hoảng loạn đòi bỏ điều trị. KTV tiến hành lấy mụn.
             </p>
           </div>
-
-          <!-- Card 2 -->
-          <div
-            class="card-shape flex flex-col w-64 bg-white p-6 border-t-8 border-red-500 relative z-20 transform translate-y-16 shadow-2xl hover:translate-y-12 transition-all duration-300"
-            style="margin-top: 100px"
-          >
-            <div
-              class="flex items-center gap-3 border-b border-gray-100 pb-3 mb-3"
-            >
-              <i
-                data-lucide="list-checks"
-                class="w-12 h-12 text-red-600 shrink-0"
-              ></i>
-              <div>
-                <h3
-                  class="text-2xl font-black text-blue-900 whitespace-nowrap overflow-visible"
-                >
-                  150 Nốt / 2h
-                </h3>
-                <p
-                  class="text-xs font-bold text-gray-500 uppercase tracking-wide"
-                >
-                  Tập trung cao độ
-                </p>
-              </div>
-            </div>
-            <p class="text-blue-800 font-bold leading-relaxed text-[15px]">
-              Bẩy cồi mụn bằng đòn bẩy từ tăm bông. Lấy trọn vẹn nhân cứng bật
-              ra mà không gây sưng đỏ.
-            </p>
+          <div class="bg-blue-800 p-6 rounded-2xl text-white border-2 border-blue-600 shadow-xl relative overflow-hidden">
+             <h4 class="font-bold text-yellow-400 text-xl mb-4 flex items-center gap-2"><i data-lucide="crosshair" class="w-6 h-6"></i> Kỹ thuật lấy mụn (Kim 30G)</h4>
+             <div class="grid grid-cols-2 gap-x-2 gap-y-4 text-sm font-medium">
+               <div class="flex items-start gap-2"><i data-lucide="check-circle" class="w-5 h-5 text-green-400 shrink-0"></i> Sát khuẩn & găng tay vô khuẩn</div>
+               <div class="flex items-start gap-2"><i data-lucide="check-circle" class="w-5 h-5 text-green-400 shrink-0"></i> Trích góc 45 độ (mở 0.5mm)</div>
+               <div class="flex items-start gap-2"><i data-lucide="check-circle" class="w-5 h-5 text-green-400 shrink-0"></i> Quét Peel 20% sát khuẩn ổ</div>
+               <div class="flex items-start gap-2"><i data-lucide="check-circle" class="w-5 h-5 text-green-400 shrink-0"></i> Đắp Gel B5 phục hồi khẩn cấp</div>
+             </div>
+             <div class="mt-5 pt-4 border-t border-blue-600/50">
+               <p class="text-blue-200 text-sm font-semibold italic flex items-start gap-2"><i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5"></i> Hội chứng Purging sẽ tự chấm dứt sau 3 tuần đào thải sâu, không phải dị ứng.</p>
+             </div>
           </div>
         </div>
-        <div class="w-1/2 pl-10 flex flex-col justify-center">
-          <div
-            class="inline-block bg-yellow-400 text-blue-900 font-bold px-4 py-2 rounded mb-6 text-sm tracking-widest uppercase"
-          >
-            Giai đoạn trọng tâm
+        <div class="w-7/12 flex flex-col gap-4 justify-center items-center">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/3.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
-          <h2 class="medium-text leading-none mb-8 mt-2">
-            KỸ THUẬT <span class="text-yellow-400">TRÍCH NHÂN</span>
-          </h2>
-
-          <div
-            class="bg-blue-800/80 text-white p-6 rounded-2xl border border-blue-600 backdrop-blur"
-          >
-            <p
-              class="font-bold text-xl mb-4 text-yellow-300 flex items-center gap-3"
-            >
-              <i data-lucide="shield" class="w-6 h-6"></i> Quy trình vô khuẩn:
-            </p>
-            <div class="grid grid-cols-1 gap-4 opacity-90 text-sm font-medium">
-              <div class="flex items-start gap-3">
-                <i
-                  data-lucide="check-circle"
-                  class="w-5 h-5 text-green-400 shrink-0"
-                ></i>
-                <p>Sát khuẩn cồn y tế & Đeo găng vô khuẩn chuyên dụng.</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <i
-                  data-lucide="check-circle"
-                  class="w-5 h-5 text-green-400 shrink-0"
-                ></i>
-                <p>Trích nhân lấy cồi cứng bật ra ngoài nhẹ nhàng.</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <i
-                  data-lucide="check-circle"
-                  class="w-5 h-5 text-green-400 shrink-0"
-                ></i>
-                <p>Quét Peel Acid 20% sát khuẩn hốc mụn trong 5 phút.</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <i
-                  data-lucide="check-circle"
-                  class="w-5 h-5 text-green-400 shrink-0"
-                ></i>
-                <p>Đắp ngay tinh chất B5 làm dịu, phục hồi khẩn cấp.</p>
-              </div>
+          <div class="w-[70%] flex gap-4">
+            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+              <img src="./media/4.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
+            <div class="w-1/2 aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+              <img src="./media/5.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Slide 13.3: Tuần 5-6 -->
+      <div class="slide bg-teal-slide justify-between">
+        <div class="w-5/12 pr-10 flex flex-col justify-center">
+          <h2 class="medium-text mb-12">
+            DIỄN BIẾN <span class="text-yellow-400">TUẦN 5 - 6</span>
+          </h2>
+          <div class="card-shape p-10 text-teal-900 border-l-[16px] border-blue-500 shadow-2xl relative overflow-hidden">
+            <i data-lucide="activity" class="absolute -right-6 -bottom-6 w-32 h-32 text-blue-100 opacity-50 transform rotate-6"></i>
+            <h4 class="font-black text-5xl text-blue-600 mb-6 relative z-10">Phục hồi & Bảo trì</h4>
+            <p class="font-bold opacity-95 text-2xl leading-relaxed relative z-10">
+              Mật độ mụn giảm xuống < 10%. Da phẳng hơn. Đưa Retinol vào bảo trì.
+            </p>
+          </div>
+        </div>
+        <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/6.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/7.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 13.4: Tuần 7-8 -->
+      <div class="slide bg-blue-slide justify-between">
+        <div class="w-5/12 pr-10 flex flex-col justify-center">
+          <h2 class="medium-text mb-12">
+            DIỄN BIẾN <span class="text-yellow-400">TUẦN 7 - 8</span>
+          </h2>
+          <div class="card-shape p-10 text-blue-900 border-l-[16px] border-green-500 shadow-2xl relative overflow-hidden">
+            <i data-lucide="shield-check" class="absolute -right-6 -bottom-6 w-32 h-32 text-green-100 opacity-50 transform -rotate-6"></i>
+            <h4 class="font-black text-5xl text-green-600 mb-6 relative z-10">Ổn định nền da</h4>
+            <p class="font-bold opacity-95 text-2xl leading-relaxed relative z-10">
+              Nền da ổn định lỳ như satin. Vết thâm bong gần hết. Không kích ứng thứ phát.
+            </p>
+          </div>
+        </div>
+        <div class="w-7/12 flex flex-col gap-6 justify-center items-center">
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/8.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+          <div class="w-[70%] aspect-video relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <img src="./media/9.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+      </div>
+
 
       <!-- Slide 11: Sản phẩm sử dụng -->
       <div class="slide bg-teal-slide justify-between">
         <div class="w-1/2 flex justify-center items-center relative pl-4">
           <div class="grid grid-cols-2 gap-6 w-full max-w-lg relative z-10">
-            <div
-              class="card-shape p-6 text-center border-b-8 border-teal-500 hover:scale-105 transition"
-            >
-              <div
-                class="w-16 h-16 bg-teal-100 rounded-full flex mx-auto items-center justify-center mb-4"
-              >
-                <i
-                  data-lucide="flask-conical"
-                  class="w-8 h-8 text-teal-600"
-                ></i>
+            <div class="card-shape p-5 text-center border-b-8 border-teal-500 hover:-translate-y-2 transition duration-300 shadow-xl bg-white flex flex-col">
+              <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
+                <img src="https://m.media-amazon.com/images/I/61+k-VwGV8L._SL1500_.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Paula's Choice BHA 2%" />
               </div>
-              <h4 class="font-black text-xl text-teal-900">BHA 2%</h4>
-              <p class="text-sm opacity-80 mt-2 text-teal-800 font-medium">
+              <h4 class="font-black text-xl text-teal-900 leading-tight mb-2">Paula's Choice 2% BHA</h4>
+              <p class="text-sm opacity-90 text-teal-800 font-bold leading-snug">
                 Acid chui sâu tan trong dầu, không kích ứng mụn.
               </p>
             </div>
-            <div
-              class="card-shape p-6 text-center border-b-8 border-blue-500 hover:scale-105 transition transform translate-y-8"
-            >
-              <div
-                class="w-16 h-16 bg-blue-100 rounded-full flex mx-auto items-center justify-center mb-4"
-              >
-                <i data-lucide="zap" class="w-8 h-8 text-blue-600"></i>
+            
+            <div class="card-shape p-5 text-center border-b-8 border-blue-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col">
+              <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
+                <img src="https://www.innoaesthetics.com/wp-content/uploads/2022/05/INNO-EXFO%C2%AE-AKN-Peel_WBlanco.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Innoaesthetics AKN Peel 20%" />
               </div>
-              <h4 class="font-black text-xl text-teal-900">Peel 20%</h4>
-              <p class="text-sm opacity-80 mt-2 text-teal-800 font-medium">
+              <h4 class="font-black text-xl text-teal-900 leading-tight mb-2">Innoaesthetics AKN Peel 20%</h4>
+              <p class="text-sm opacity-90 text-teal-800 font-bold leading-snug">
                 Tẩy sừng hóa siêu bền mặt 5 phút tại Spa.
               </p>
             </div>
-            <div
-              class="card-shape p-6 text-center border-b-8 border-yellow-400 hover:scale-105 transition mt-8"
-            >
-              <div
-                class="w-16 h-16 bg-yellow-100 rounded-full flex mx-auto items-center justify-center mb-4"
-              >
-                <i data-lucide="shield" class="w-8 h-8 text-yellow-600"></i>
+
+            <div class="card-shape p-5 text-center border-b-8 border-yellow-400 hover:-translate-y-2 transition duration-300 mt-8 shadow-xl bg-white flex flex-col">
+              <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
+                <img src="https://www.skinceuticals.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-acd-skinceuticals-master-catalog/default/dw1278938f/pdpimages/hydrating-b5-gel-635494117004-skinceuticals-main.jpg?sw=930&sfrm=png&q=70" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="SkinCeuticals Hydrating B5 Gel" />
               </div>
-              <h4 class="font-black text-xl text-teal-900">Gel B5</h4>
-              <p class="text-sm opacity-80 mt-2 text-teal-800 font-medium">
+              <h4 class="font-black text-xl text-teal-900 leading-tight mb-2">SkinCeuticals Hydrating B5</h4>
+              <p class="text-sm opacity-90 text-teal-800 font-bold leading-snug">
                 Phục hồi cấp tốc, hoàn toàn Oil-Free.
               </p>
             </div>
-            <div
-              class="card-shape p-6 text-center border-b-8 border-indigo-500 hover:scale-105 transition transform translate-y-8"
-            >
-              <div
-                class="w-16 h-16 bg-indigo-100 rounded-full flex mx-auto items-center justify-center mb-4"
-              >
-                <i data-lucide="sparkles" class="w-8 h-8 text-indigo-600"></i>
+
+            <div class="card-shape p-5 text-center border-b-8 border-indigo-500 hover:-translate-y-2 transition duration-300 transform translate-y-8 shadow-xl bg-white flex flex-col">
+              <div class="h-36 mb-4 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
+                <img src="https://product.hstatic.net/1000241635/product/obagi-medical-obagi360-retinol-0-5-362032070179-product-fron_3c8d5dbcdb184bb5851b20e492467dc9_master.jpg" class="h-full object-contain mix-blend-multiply drop-shadow-lg p-2" alt="Obagi 360 Retinol 0.5%" />
               </div>
-              <h4 class="font-black text-xl text-teal-900">Retinol 0.5%</h4>
-              <p class="text-sm opacity-80 mt-2 text-teal-800 font-medium">
+              <h4 class="font-black text-xl text-teal-900 leading-tight mb-2">Obagi 360 Retinol 0.5%</h4>
+              <p class="text-sm opacity-90 text-teal-800 font-bold leading-snug">
                 Thu nhỏ bã nhờn, chống tắc trở lại.
               </p>
             </div>
@@ -1349,7 +1417,7 @@
             SẢN PHẨM <span class="text-yellow-400">SỬ DỤNG</span>
           </h2>
           <div
-            class="bg-teal-800 p-12 rounded-2xl w-[110%] ml-auto max-w-2xl border border-teal-600 text-white shadow-xl relative overflow-hidden"
+            class="bg-teal-800 p-10 rounded-2xl w-full border border-teal-600 text-white shadow-xl relative overflow-hidden"
           >
             <i
               data-lucide="shield-check"
@@ -1382,100 +1450,114 @@
             THAY ĐỔI <span class="text-yellow-400">THÓI QUEN</span>
           </h2>
 
-          <div class="space-y-3 mb-8 w-[115%] relative z-10 text-lg">
+          <div class="space-y-4 mb-8 w-[115%] relative z-10 text-2xl font-black">
             <!-- 1 -->
             <div
-              class="flex items-center card-shape py-3 px-6 shadow-sm bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-6">
+              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
                 <span
-                  class="text-red-500 font-bold opacity-80 decoration-2 line-through"
+                  class="text-red-500 opacity-80 decoration-2 line-through"
                   >Dầu Tẩy Trang</span
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0s"></i>
+                <i
+                  data-lucide="arrow-right"
+                  class="text-blue-500 w-8 h-8 idle-soft-bounce"
+                  style="animation-delay: 0s"
+                ></i>
               </div>
-              <div class="w-2/5 pl-6">
-                <span class="text-teal-700 font-black">Micellar Water</span>
+              <div class="w-2/5 pl-8">
+                <span class="text-teal-700">Nước tẩy trang Micellar</span>
               </div>
             </div>
-
+ 
             <!-- 2 -->
             <div
-              class="flex items-center card-shape py-3 px-6 shadow-sm bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-6">
+              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
                 <span
-                  class="text-red-500 font-bold opacity-80 decoration-2 line-through"
+                  class="text-red-500 opacity-80 decoration-2 line-through"
                   >SRM xà phòng</span
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.3s"></i>
+                <i
+                  data-lucide="arrow-right"
+                  class="text-blue-500 w-8 h-8 idle-soft-bounce"
+                  style="animation-delay: 0.3s"
+                ></i>
               </div>
-              <div class="w-2/5 pl-6">
-                <span class="text-teal-700 font-black">Gel Amino pH 5.5</span>
+              <div class="w-2/5 pl-8">
+                <span class="text-teal-700">Gel rửa mặt dịu nhẹ pH 5.5</span>
               </div>
             </div>
-
+ 
             <!-- 3 -->
             <div
-              class="flex items-center card-shape py-3 px-6 shadow-sm bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-6">
+              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
                 <span
-                  class="text-red-500 font-bold opacity-80 decoration-2 line-through"
+                  class="text-red-500 opacity-80 decoration-2 line-through"
                   >Sợ dùng Acid</span
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.6s"></i>
+                <i
+                  data-lucide="arrow-right"
+                  class="text-blue-500 w-8 h-8 idle-soft-bounce"
+                  style="animation-delay: 0.6s"
+                ></i>
               </div>
-              <div class="w-2/5 pl-6">
-                <span class="text-teal-700 font-black text-sm"
-                  >BHA tối + Retinol</span
-                >
+              <div class="w-2/5 pl-8">
+                <span class="text-teal-700">BHA tối + Retinol</span>
               </div>
             </div>
-
+ 
             <!-- 4 -->
             <div
-              class="flex items-center card-shape py-3 px-6 shadow-sm bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-6">
+              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
                 <span
-                  class="text-red-500 font-bold opacity-80 decoration-2 line-through"
+                  class="text-red-500 opacity-80 decoration-2 line-through"
                   >Kem sáp ong</span
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:0.9s"></i>
+                <i
+                  data-lucide="arrow-right"
+                  class="text-blue-500 w-8 h-8 idle-soft-bounce"
+                  style="animation-delay: 0.9s"
+                ></i>
               </div>
-              <div class="w-2/5 pl-6">
-                <span class="text-teal-700 font-black text-sm"
-                  >Gel Oil-Free</span
-                >
+              <div class="w-2/5 pl-8">
+                <span class="text-teal-700">Gel dưỡng không chứa dầu</span>
               </div>
             </div>
-
+ 
             <!-- 5 -->
             <div
-              class="flex items-center card-shape py-3 px-6 shadow-sm bg-white hover:-translate-y-1 transition duration-200"
+              class="flex items-center card-shape py-4 px-8 shadow-md bg-white hover:-translate-y-1 transition duration-200"
             >
-              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-6">
+              <div class="w-2/5 text-right border-r-2 border-gray-100 pr-8">
                 <span
-                  class="text-red-500 font-bold opacity-80 decoration-2 line-through"
+                  class="text-red-500 opacity-80 decoration-2 line-through"
                   >Tự nặn, cạy mụn</span
                 >
               </div>
               <div class="w-1/5 flex justify-center">
-                <i data-lucide="arrow-right" class="text-blue-500 w-6 h-6 idle-soft-bounce" style="animation-delay:1.2s"></i>
+                <i
+                  data-lucide="arrow-right"
+                  class="text-blue-500 w-8 h-8 idle-soft-bounce"
+                  style="animation-delay: 1.2s"
+                ></i>
               </div>
-              <div class="w-2/5 pl-6">
-                <span class="text-teal-700 font-black text-sm"
-                  >KTV chuẩn Y khoa</span
-                >
+              <div class="w-2/5 pl-8">
+                <span class="text-teal-700">KTV chuẩn Y khoa</span>
               </div>
             </div>
           </div>
@@ -1514,223 +1596,186 @@
         </div>
       </div>
 
-      <!-- Slide 13: Diễn biến tuần -->
-      <div class="slide bg-teal-slide justify-between">
-        <div class="w-1/2 pr-10">
-          <h2 class="medium-text mb-8">
-            DIỄN BIẾN <span class="text-yellow-400">THEO TUẦN</span>
-          </h2>
-          <div class="space-y-6">
-            <div
-              class="card-shape p-5 text-teal-900 border-l-8 border-yellow-400 relative overflow-hidden shadow-md"
-            >
-              <h4 class="font-black text-2xl text-teal-700 mb-1">Tuần 1 - 2</h4>
-              <p class="font-medium opacity-90 text-lg">
-                BHA làm mòn sừng. Cồi mụn gom trồi dần. Da hơi bong nhẹ ở mép.
+
+
+      <!-- Slide 14: Kết quả -->
+      <div class="slide bg-blue-slide justify-center gap-16">
+        <div class="w-5/12 flex flex-col justify-center gap-6 pr-4">
+          <div>
+            <h2 class="medium-text mb-2">
+              ĐÁNH GIÁ <span class="text-yellow-400">KẾT QUẢ</span>
+            </h2>
+            <p class="text-xl font-medium opacity-90 uppercase tracking-widest pl-2 border-l-4 border-yellow-400">
+              Sau 8 tuần điều trị
+            </p>
+          </div>
+
+          <div class="card-shape bg-teal-800 text-white p-8 border-0 shadow-2xl relative overflow-hidden">
+            <i data-lucide="smile" class="absolute -right-10 -bottom-10 w-48 h-48 text-teal-600 opacity-40 idle-float"></i>
+            <h3 class="text-2xl font-black mb-4 border-b border-teal-600 pb-3 relative z-10">
+              THANG ĐO TÂM LÝ (CADI)
+            </h3>
+            <div class="flex items-center gap-4 mb-6 relative z-10">
+              <div class="text-center w-24 flex flex-col items-center">
+                <p class="text-4xl font-black title-font">13<span class="text-xl text-teal-400">/15</span></p>
+                <p class="font-bold text-xs uppercase mt-1 opacity-80 tracking-wider">Rất tự ti</p>
+              </div>
+              <div class="flex-1 px-2">
+                <div class="h-2 bg-black/30 rounded-full relative overflow-hidden">
+                  <div class="absolute inset-y-0 left-0 bg-yellow-400 rounded-full cadi-bar-animated"></div>
+                </div>
+              </div>
+              <div class="text-center w-24 flex flex-col items-center">
+                <p class="text-4xl font-black title-font text-yellow-400">2<span class="text-xl text-teal-400">/15</span></p>
+                <p class="font-bold text-yellow-400 text-xs uppercase mt-1 tracking-wider">Phục hồi</p>
+              </div>
+            </div>
+            <div class="bg-white/10 p-4 rounded-xl border border-white/20 relative z-10 backdrop-blur shadow-inner">
+              <i data-lucide="quote" class="text-teal-500/50 w-6 h-6 absolute -top-3 -left-2 bg-teal-800 rounded-full idle-float"></i>
+              <p class="font-bold text-sm leading-snug italic pt-1">
+                "Khách hàng tự tin cắt tóc ngắn khoe trán mịn đi làm, không cần che phủ kem nền dày nữa."
               </p>
             </div>
-            <div
-              class="card-shape p-5 text-teal-900 border-l-8 border-red-500 relative overflow-hidden shadow-md transform translate-x-6"
-            >
-              <h4 class="font-black text-2xl text-red-600 mb-1">
-                Tuần 3 - 4 (BẢN LỀ)
-              </h4>
-              <p class="font-medium opacity-90 text-lg">
-                Giai đoạn đẩy mụn (<span class="font-bold italic">Purging</span
-                >). Khách hoảng loạn đòi bỏ điều trị. KTV tiến hành lấy 150 nốt.
-              </p>
-              <i
-                data-lucide="flame"
-                class="absolute -right-4 -bottom-4 w-32 h-32 text-red-100 opacity-20 pointer-events-none transform rotate-12 idle-float"
-              ></i>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="card-shape flex-1 text-blue-900 border-l-8 border-teal-500 p-5 flex flex-col justify-center shadow-lg hover:-translate-y-1 transition duration-300">
+              <p class="text-xs font-bold uppercase text-gray-400 mb-1">MỤN ẨN (Clearance Rate)</p>
+              <h3 class="text-4xl font-black text-teal-600 title-font idle-pulse mb-1">98%</h3>
+              <p class="font-bold text-sm">Gần như sạch hoàn toàn</p>
             </div>
-            <div
-              class="card-shape p-5 text-teal-900 border-l-8 border-blue-500 relative overflow-hidden shadow-md"
-            >
-              <h4 class="font-black text-2xl text-blue-600 mb-1">Tuần 5 - 6</h4>
-              <p class="font-medium opacity-90 text-lg">
-                Mật độ mụn giảm xuống < 10%. Da phẳng hơn. Đưa Retinol vào bảo
-                trì.
-              </p>
-            </div>
-            <div
-              class="card-shape p-5 text-teal-900 border-l-8 border-green-500 relative overflow-hidden shadow-md transform translate-x-6"
-            >
-              <h4 class="font-black text-2xl text-green-600 mb-1">
-                Tuần 7 - 8
-              </h4>
-              <p class="font-medium opacity-90 text-lg">
-                Nền da ổn định lỳ như satin. Vết thâm bong gần hết. Không kích
-                ứng thứ phát.
-              </p>
+            <div class="card-shape flex-1 text-blue-900 border-l-8 border-blue-500 p-5 flex flex-col justify-center shadow-lg hover:-translate-y-1 transition duration-300">
+              <p class="text-xs font-bold uppercase text-gray-400 mb-1">GEA Scale (Mức độ)</p>
+              <h3 class="text-3xl font-black text-blue-600 title-font mb-1">3 &rarr; 1</h3>
+              <p class="font-bold text-sm">Mức độ mụn thuyên giảm</p>
             </div>
           </div>
         </div>
-        <div class="w-1/2 flex justify-center items-center pl-8">
-          <div
-            class="w-full max-w-lg aspect-square bg-teal-900 rounded-[3rem] border-8 border-yellow-400 flex flex-col justify-center items-center text-center p-10 shadow-2xl relative overflow-hidden text-white"
-          >
-            <i
-              data-lucide="trending-down"
-              class="w-32 h-32 text-yellow-400 mb-6 relative z-10"
-            ></i>
-            <h3 class="text-3xl font-black mb-4 relative z-10 uppercase">
-              Hội chứng Purging
-            </h3>
-            <p
-              class="text-lg relative z-10 opacity-90 leading-relaxed font-medium"
-            >
-              Sự lột xác luôn đi liền với đẩy mụn. Purging khác Dị ứng ở chỗ sẽ
-              chấm dứt ngay sau 3 tuần đào thải sâu.
-            </p>
-            <i
-              data-lucide="waves"
-              class="absolute -bottom-10 -right-10 w-64 h-64 text-teal-800 opacity-50 idle-float"
-            ></i>
-          </div>
+
+        <div class="w-5/12 flex flex-col gap-4 justify-center">
+           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+              <div class="absolute top-4 left-4 bg-red-500/90 backdrop-blur text-white text-lg font-black px-4 py-2 rounded-lg z-10 shadow-lg tracking-widest">TRƯỚC</div>
+              <img src="./media/IMG_9975.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-center" />
+           </div>
+           <div class="w-[90%] mx-auto aspect-video relative group rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+              <div class="absolute top-4 left-4 bg-teal-500/90 backdrop-blur text-white text-lg font-black px-4 py-2 rounded-lg z-10 shadow-lg tracking-widest">SAU 8 TUẦN</div>
+              <img src="./media/IMG_9976.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-center" />
+           </div>
         </div>
       </div>
 
-      <!-- Slide 14: Kết quả -->
-      <div class="slide bg-blue-slide justify-between">
-        <div class="w-1/2 flex flex-col justify-center gap-6 pr-10">
-          <h2 class="medium-text mb-2">
-            ĐÁNH GIÁ <span class="text-yellow-400">KẾT QUẢ</span>
+      <!-- Slide Video: Quy trình chăm sóc -->
+      <div class="slide bg-blue-slide justify-center gap-16 items-center px-16">
+        <div class="w-6/12 flex flex-col justify-center pr-10 relative z-10">
+          <h2 class="medium-text mb-10 text-left">
+            QUY TRÌNH <span class="text-yellow-400">CHĂM SÓC Y KHOA</span>
           </h2>
-          <p
-            class="text-xl font-medium opacity-90 uppercase tracking-widest pl-2 border-l-4 border-yellow-400"
-          >
-            Sau 8 tuần điều trị
-          </p>
+          
+          <div class="space-y-6">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-blue-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="droplets" class="w-7 h-7 text-blue-900"></i>
+              </div>
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Làm sạch sâu đa tầng</h4>
+                <p class="text-blue-50 text-lg font-medium leading-relaxed">
+                  Loại bỏ hoàn toàn bã nhờn, bụi bẩn và lớp sừng già cỗi mà không làm tổn thương hàng rào bảo vệ da.
+                </p>
+              </div>
+            </div>
 
-          <div class="flex gap-4 mb-2">
-            <div
-              class="w-1/2 relative group rounded-xl overflow-hidden shadow-lg border-4 border-white"
-            >
-              <div
-                class="absolute top-2 left-2 bg-red-500/90 backdrop-blur text-white text-[10px] font-black px-2 py-1 rounded z-10 shadow"
-              >
-                TRƯỚC
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-yellow-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="zap" class="w-7 h-7 text-blue-900"></i>
               </div>
-              <img
-                src="./media/IMG_9975.jpg"
-                class="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <div
-              class="w-1/2 relative group rounded-xl overflow-hidden shadow-lg border-4 border-white"
-            >
-              <div
-                class="absolute top-2 left-2 bg-teal-500/90 backdrop-blur text-white text-[10px] font-black px-2 py-1 rounded z-10 shadow"
-              >
-                SAU 8 TUẦN
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Công nghệ cao hỗ trợ</h4>
+                <p class="text-blue-50 text-lg font-medium leading-relaxed">
+                  Ứng dụng điện di tinh chất và chiếu ánh sáng sinh học giúp kháng viêm, diệt khuẩn P.Acnes.
+                </p>
               </div>
-              <img
-                src="./media/IMG_9976.jpg"
-                class="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-300"
-              />
             </div>
-          </div>
-          <div
-            class="card-shape text-blue-900 border-l-8 border-teal-500 p-6 flex items-center justify-between"
-          >
-            <div>
-              <p class="text-sm font-bold uppercase text-gray-400 mb-1">
-                MỤN ẨN (Clearance Rate)
-              </p>
-              <p class="font-bold text-lg">Gần như sạch hoàn toàn</p>
-            </div>
-            <h3 class="text-6xl font-black text-teal-600 title-font idle-pulse" style="animation-duration:3s">98%</h3>
-          </div>
-          <div
-            class="card-shape text-blue-900 border-l-8 border-blue-500 p-6 flex items-center justify-between"
-          >
-            <div>
-              <p class="text-sm font-bold uppercase text-gray-400 mb-1">
-                GEA Scale (Mức độ mụn)
-              </p>
-              <p class="font-bold text-lg">Mức 3 &rarr; Mức 1</p>
-            </div>
-            <div
-              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center"
-            >
-              <i data-lucide="bar-chart-3" class="w-8 h-8 text-blue-600"></i>
+
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-teal-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="leaf" class="w-7 h-7 text-blue-900"></i>
+              </div>
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Phục hồi & Làm dịu</h4>
+                <p class="text-blue-50 text-lg font-medium leading-relaxed">
+                  Đắp mặt nạ chuyên sâu giúp làm dịu tức thì các nốt sưng đỏ, đẩy nhanh quá trình tái tạo biểu bì.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="w-1/2 pl-12 flex flex-col justify-center">
+
+        <div class="w-auto flex justify-center items-center relative z-10">
           <div
-            class="card-shape bg-teal-800 text-white p-10 border-0 shadow-2xl relative overflow-hidden"
+            class="h-[75vh] aspect-[9/16] bg-black rounded-3xl border-8 border-white shadow-2xl overflow-hidden relative group hover:border-yellow-400 transition-colors idle-breathe"
+            style="animation-duration: 6s"
           >
-            <i
-              data-lucide="smile"
-              class="absolute -right-10 -bottom-10 w-48 h-48 text-teal-600 opacity-40 idle-float"
-            ></i>
-            <h3
-              class="text-3xl font-black mb-6 border-b border-teal-600 pb-4 relative z-10"
-            >
-              THANG ĐO TÂM LÝ (CADI)
-            </h3>
-            <div class="flex items-center gap-4 mb-8 relative z-10">
-              <div class="text-center w-32 flex flex-col items-center">
-                <p class="text-5xl font-black title-font">
-                  13<span class="text-2xl text-teal-400">/15</span>
-                </p>
-                <p
-                  class="font-bold text-sm uppercase mt-2 opacity-80 tracking-wider"
-                >
-                  Rất tự ti
-                </p>
-              </div>
-              <div class="flex-1 px-2">
-                <div
-                  class="h-2 bg-black/30 rounded-full relative overflow-hidden"
-                >
-                  <div
-                    class="absolute inset-y-0 left-0 bg-yellow-400 rounded-full cadi-bar-animated"
-                  ></div>
-                </div>
-              </div>
-              <div class="text-center w-32 flex flex-col items-center">
-                <p class="text-5xl font-black title-font text-yellow-400">
-                  2<span class="text-2xl text-teal-400">/15</span>
-                </p>
-                <p
-                  class="font-bold text-yellow-400 text-sm uppercase mt-2 tracking-wider"
-                >
-                  Phục hồi
-                </p>
-              </div>
-            </div>
-            <div
-              class="bg-white/10 p-6 rounded-xl border border-white/20 relative z-10 backdrop-blur shadow-inner"
-            >
-              <i
-                data-lucide="quote"
-                class="text-teal-500/50 w-8 h-8 absolute -top-4 -left-2 bg-teal-800 rounded-full idle-float"
-              ></i>
-              <p class="font-bold text-lg leading-snug italic pt-2">
-                "Khách hàng đã tự tin cắt tóc ngắn khoe trán mịn đi làm, không
-                cần che phủ kem nền dày nữa."
-              </p>
-            </div>
+            <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
+              <source src="./media/video01.mov" type="video/mp4" />
+            </video>
           </div>
         </div>
       </div>
 
       <!-- Slide 15: Video -->
-      <div class="slide bg-teal-slide flex-col justify-center items-center">
-        <div class="w-full max-w-6xl mx-auto flex flex-col items-center">
-          <h2 class="medium-text mb-6">
+      <div class="slide bg-teal-slide justify-between items-center px-16">
+        <div class="w-5/12 flex justify-center items-center relative z-10">
+          <div
+            class="h-[75vh] aspect-[9/16] bg-black rounded-3xl border-8 border-white shadow-2xl overflow-hidden relative group hover:border-yellow-400 transition-colors idle-breathe"
+            style="animation-duration: 6s"
+          >
+            <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
+              <source src="./media/video02.mov" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="w-7/12 flex flex-col justify-center pl-12 relative z-10">
+          <h2 class="medium-text mb-10 text-left">
             VIDEO <span class="text-yellow-400">TRÍCH NHÂN KỸ THUẬT</span>
           </h2>
-          <div
-            class="w-full aspect-video bg-black rounded-3xl border-8 border-white shadow-2xl overflow-hidden group flex justify-center items-center cursor-pointer hover:border-yellow-400 transition-colors idle-breathe"
-            style="animation-duration:6s"
-          >
-            <video controls class="w-full h-full object-cover">
-              <source src="./media/video01.mov" type="video/mp4" />
-            </video>
+          
+          <div class="grid grid-cols-1 gap-6">
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-yellow-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="shield" class="w-7 h-7 text-teal-900"></i>
+              </div>
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Vô khuẩn tuyệt đối</h4>
+                <p class="text-teal-50 text-lg font-medium leading-relaxed">
+                  Dụng cụ tiệt trùng chuẩn Y khoa, mỗi khách hàng một bộ riêng biệt ngăn chặn lây nhiễm chéo.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-teal-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="crosshair" class="w-7 h-7 text-teal-900"></i>
+              </div>
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Trích nhân chính xác</h4>
+                <p class="text-teal-50 text-lg font-medium leading-relaxed">
+                  Kỹ thuật viên kinh nghiệm xử lý tận gốc nhân mụn viêm, hạn chế tối đa tổn thương mao mạch.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-shape bg-white/10 backdrop-blur border border-white/20 p-6 flex items-start gap-5 shadow-lg hover:-translate-y-1 transition duration-300">
+              <div class="w-14 h-14 bg-blue-400 rounded-2xl flex justify-center items-center shrink-0 shadow-inner">
+                <i data-lucide="sparkles" class="w-7 h-7 text-teal-900"></i>
+              </div>
+              <div>
+                <h4 class="text-2xl font-black text-white mb-2">Hạn chế thâm sẹo</h4>
+                <p class="text-teal-50 text-lg font-medium leading-relaxed">
+                  Lấy đúng kỹ thuật kết hợp phục hồi chuyên sâu giúp da nhanh chóng tái tạo, láng mịn trở lại.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1778,31 +1823,31 @@
               </div>
 
               <ul
-                class="space-y-4 font-bold relative z-10 text-[17px] text-blue-900"
+                class="space-y-6 font-black relative z-10 text-xl text-blue-900"
               >
                 <li
-                  class="flex items-start gap-4 bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm"
+                  class="flex items-start gap-6 bg-red-50 p-6 rounded-2xl border-2 border-red-100 shadow-sm"
                 >
                   <span
-                    class="flex items-center justify-center w-8 h-8 bg-red-500 text-white rounded-xl text-lg font-black shrink-0 shadow-md"
+                    class="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-2xl text-xl font-black shrink-0 shadow-md"
                     >1</span
                   >
-                  <p class="mt-1 leading-snug">
+                  <p class="mt-1 leading-relaxed">
                     Tâm lý hoảng loạn khi Purging. KTV phải phân tích
                     <strong>hàng ngày</strong> để níu giữ lòng tin của khách
                     hàng.
                   </p>
                 </li>
                 <li
-                  class="flex items-start gap-4 bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm"
+                  class="flex items-start gap-6 bg-red-50 p-6 rounded-2xl border-2 border-red-100 shadow-sm"
                 >
                   <span
-                    class="flex items-center justify-center w-8 h-8 bg-red-500 text-white rounded-xl text-lg font-black shrink-0 shadow-md"
+                    class="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-2xl text-xl font-black shrink-0 shadow-md"
                     >2</span
                   >
-                  <p class="mt-1 leading-snug">
+                  <p class="mt-1 leading-relaxed">
                     Áp lực
-                    <strong class="text-red-600 text-lg mx-1">150 nốt/2h</strong
+                    <strong class="text-red-600 text-2xl mx-1">tập trung cao độ</strong
                     >. Ấn sai 1 millibar lực sẽ làm rách và dập nát mao mạch
                     nang mụn.
                   </p>
@@ -1901,7 +1946,7 @@
             data-lucide="quote"
             class="absolute -top-6 -left-6 w-16 h-16 text-yellow-500 fill-yellow-500 idle-float"
           ></i>
-          <p class="text-2xl font-bold leading-relaxed italic px-8">
+          <p class="text-3xl font-black leading-relaxed italic px-8">
             Làm đẹp không chỉ là những nguyên lý hóa học khô khan, mà là nghệ
             thuật lắng nghe làn da và chữa lành sự tự ti cho khách hàng.
           </p>
